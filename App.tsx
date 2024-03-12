@@ -5,17 +5,16 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 
-import {SafeAreaView, Text, View} from 'react-native';
+import AppNav from './src/navigation/AppNav';
 
 function App(): React.JSX.Element {
   return (
-    <SafeAreaView>
-      <View>
-        <Text>Hello</Text>
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <AppNav />
+    </NavigationContainer>
   );
 }
 
