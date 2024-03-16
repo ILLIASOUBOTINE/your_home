@@ -3,4 +3,6 @@ export enum NameScreens {
   TODOLIST = 'To-do List',
   MESSAGES = 'Messages',
   PROFILE = 'Profile',
+  LOGIN = 'Login',
+  REGISTRATION = 'Registration',
 }

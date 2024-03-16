@@ -1,3 +1,4 @@
-export enum NameNavigatorststs {
+export enum NameNavigators {
   TABBOTTOMNAVIGATOR = 'TabBottomNav',
+  LOGINANDREGISTRATIONSTACKNAVIGATOR = 'LoginAndRegistrationStackNav',
 }

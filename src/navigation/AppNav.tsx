@@ -2,12 +2,14 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 import {SafeAreaView} from 'react-native';
 
-import {NameNavigatorststs} from '../types/nameNavigators';
+import {NameNavigators} from '../types/nameNavigators';
 import TabBottonNav from './TabBottomNav';
 import React from 'react';
+import LoginAndRegistrationStackNav from './LoginAndRegistrationStackNav';
 
 type TAppStackParamList = {
-  [NameNavigatorststs.TABBOTTOMNAVIGATOR]: undefined;
+  [NameNavigators.TABBOTTOMNAVIGATOR]: undefined;
+  [NameNavigators.LOGINANDREGISTRATIONSTACKNAVIGATOR]: undefined;
 };
 
 const AppStack = createStackNavigator<TAppStackParamList>();
@@ -16,12 +18,17 @@ const AppNav = () => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <AppStack.Navigator
+        initialRouteName={NameNavigators.LOGINANDREGISTRATIONSTACKNAVIGATOR}
         screenOptions={() => ({
           gestureEnabled: false,
           headerShown: false,
         })}>
         <AppStack.Screen
-          name={NameNavigatorststs.TABBOTTOMNAVIGATOR}
+          name={NameNavigators.LOGINANDREGISTRATIONSTACKNAVIGATOR}
+          component={LoginAndRegistrationStackNav}
+        />
+        <AppStack.Screen
+          name={NameNavigators.TABBOTTOMNAVIGATOR}
           component={TabBottonNav}
         />
       </AppStack.Navigator>
