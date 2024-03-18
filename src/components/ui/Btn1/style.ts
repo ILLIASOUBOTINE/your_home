@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
     height: scaleSize(42),
     justifyContent: 'center',
     alignItems: 'center',
+    marginBottom: scaleSize(10),
   },
   textBtn: {
     color: Colors.COLOR2,

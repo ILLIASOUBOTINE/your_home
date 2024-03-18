@@ -15,9 +15,7 @@ const LoginScreen = () => {
     useNavigation<StackNavigationProp<TLoginAndRegistrationNavParamList>>();
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={true}
-      contentContainerStyle={stylesGeneral.containerScreen}>
+    <ScrollView contentContainerStyle={stylesGeneral.containerScreen}>
       <Title1>Log_In</Title1>
       <FormLogin />
 

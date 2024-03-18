@@ -5,5 +5,5 @@
     // ... other options
     "types": ["node", "react", "react-native"]
   },
-  "include": ["**/*.ts", "**/*.tsx", "./svg.d.ts"]
+  "include": ["**/*.ts", "**/*.tsx", "./svg.d.ts", "src/store"]
 }

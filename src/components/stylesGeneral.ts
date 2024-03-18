@@ -1,11 +1,11 @@
 import {StyleSheet} from 'react-native';
-import {scaleSize} from '../utils/scaleSize';
+import {WINDOW_HEIGHT, scaleSize} from '../utils/scaleSize';
 import {Colors} from '../constans/colors';
 
 export const stylesGeneral = StyleSheet.create({
   containerScreen: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+    minHeight: WINDOW_HEIGHT,
     paddingHorizontal: scaleSize(6),
     backgroundColor: Colors.COLOR5,
   },

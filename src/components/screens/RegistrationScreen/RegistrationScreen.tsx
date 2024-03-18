@@ -8,6 +8,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {TLoginAndRegistrationNavParamList} from '../../../navigation/LoginAndRegistrationStackNav';
 import {NameScreens} from '../../../types/nameScreens';
 import {styles} from './style';
+import FormRegistration from '../../general/FormRegistration/FormRegistration';
 
 const RegistrationScreen = () => {
   const navigation =
@@ -16,7 +17,8 @@ const RegistrationScreen = () => {
   return (
     <ScrollView contentContainerStyle={stylesGeneral.containerScreen}>
       <Title1>Registration</Title1>
-      <Btn1>Submit</Btn1>
+      <FormRegistration />
+
       <Btn1
         style={styles.btn1Login}
         onPressBtn={() => navigation.navigate(NameScreens.LOGIN)}>
