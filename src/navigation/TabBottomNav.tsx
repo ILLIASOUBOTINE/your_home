@@ -14,12 +14,15 @@ import {Colors} from '../constans/colors';
 import {scaleSize} from '../utils/scaleSize';
 import {FontSize} from '../constans/fontSize';
 import {Fonts} from '../constans/fonts';
+import {NameNavigators} from '../types/nameNavigators';
+import ToDoListStackNav from './ToDoListStackNav';
 
 export type TTabBottomNavParamList = {
   [NameScreens.MESSAGES]: undefined;
   [NameScreens.PROFILE]: undefined;
   [NameScreens.SCHEDULE]: undefined;
   [NameScreens.TODOLIST]: undefined;
+  [NameNavigators.TODOLISTSTACKNAVIGATOR]: undefined;
 };
 
 const TabNav = createBottomTabNavigator<TTabBottomNavParamList>();
@@ -47,10 +50,20 @@ const TabBottonNav = () => {
           ),
         }}
       />
-      <TabNav.Screen
+      {/* <TabNav.Screen
         name={NameScreens.TODOLIST}
         component={ToDoListScreen}
         options={{
+          tabBarIcon: ({focused}) => (
+            <IconToDoList fill={focused ? Colors.COLOR3 : Colors.COLOR1} />
+          ),
+        }}
+      /> */}
+      <TabNav.Screen
+        name={NameNavigators.TODOLISTSTACKNAVIGATOR}
+        component={ToDoListStackNav}
+        options={{
+          title: 'To-do List',
           tabBarIcon: ({focused}) => (
             <IconToDoList fill={focused ? Colors.COLOR3 : Colors.COLOR1} />
           ),

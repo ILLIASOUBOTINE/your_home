@@ -7,7 +7,6 @@ import Btn1 from '../../ui/Btn1/Btn1';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {TLoginAndRegistrationNavParamList} from '../../../navigation/LoginAndRegistrationStackNav';
 import {NameScreens} from '../../../types/nameScreens';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 
