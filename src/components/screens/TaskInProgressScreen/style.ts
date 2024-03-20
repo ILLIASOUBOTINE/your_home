@@ -10,12 +10,4 @@ export const styles = StyleSheet.create({
   title: {
     alignSelf: 'flex-start',
   },
-  navTodoList: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    backgroundColor: Colors.COLOR1,
-    borderRadius: scaleSize(6),
-    padding: scaleSize(2),
-  },
 });

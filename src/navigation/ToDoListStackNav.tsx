@@ -20,6 +20,7 @@ const ToDoListStackNav = () => {
       screenOptions={() => ({
         gestureEnabled: false,
         headerShown: false,
+        animationEnabled: false,
       })}>
       <ToDoListNav.Screen
         name={NameScreens.TASKADD}

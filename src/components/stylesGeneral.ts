@@ -7,7 +7,7 @@ import {Fonts} from '../constans/fonts';
 export const stylesGeneral = StyleSheet.create({
   containerScreen: {
     justifyContent: 'space-around',
-    minHeight: WINDOW_HEIGHT,
+    minHeight: WINDOW_HEIGHT - scaleSize(80),
     paddingHorizontal: scaleSize(6),
     backgroundColor: Colors.COLOR5,
   },
