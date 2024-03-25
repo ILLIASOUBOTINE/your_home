@@ -1,6 +1,6 @@
 export enum NameScreens {
   SCHEDULE = 'Schedule',
-  TODOLIST = 'To-do List',
+  TASKDETAILS = 'TaskDetails',
   MESSAGES = 'Messages',
   PROFILE = 'Profile',
   LOGIN = 'Login',

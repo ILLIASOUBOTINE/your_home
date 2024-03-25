@@ -16,4 +16,20 @@ export const stylesGeneral = StyleSheet.create({
     fontFamily: Fonts.ROBOTO400,
     color: Colors.COLOR6,
   },
+  input1: {
+    backgroundColor: Colors.COLOR2,
+    color: Colors.COLOR1,
+    fontSize: FontSize.H5,
+    fontFamily: Fonts.INTER500,
+    borderWidth: 2,
+    borderColor: Colors.COLOR1,
+    borderRadius: scaleSize(8),
+    width: '100%',
+    height: scaleSize(36),
+    paddingLeft: scaleSize(10),
+  },
+  input2: {
+    height: scaleSize(82),
+  },
+  containerForm: {width: '100%', gap: scaleSize(14)},
 });

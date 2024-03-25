@@ -1,7 +1,7 @@
 import React from 'react';
 import {Text, View} from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
-import Title1 from '../../ui/Title1.tsx/Title1';
+import Title1 from '../../ui/Title1/Title1';
 import {styles} from './style';
 
 import NavToDoList from '../NavToDoList/NavToDoList';

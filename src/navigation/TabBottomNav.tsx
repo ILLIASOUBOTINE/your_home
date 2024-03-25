@@ -4,7 +4,6 @@ import {NameScreens} from '../types/nameScreens';
 import MessagesScreen from '../components/screens/MessagesScreen/MessagesScreen';
 import ProfileScreen from '../components/screens/ProfileScreen/ProfileScreen';
 import ScheduleScreen from '../components/screens/ScheduleScreen/ScheduleScreen';
-import ToDoListScreen from '../components/screens/ToDoListScreen/ToDoListScreen';
 
 import IconSchedule from '../../assets/icon_app/schedule.svg';
 import IconProfile from '../../assets/icon_app/profile.svg';
@@ -16,13 +15,15 @@ import {FontSize} from '../constans/fontSize';
 import {Fonts} from '../constans/fonts';
 import {NameNavigators} from '../types/nameNavigators';
 import ToDoListStackNav from './ToDoListStackNav';
+import TaskDetailsScreen from '../components/screens/TaskDetailsScreen/TaskDetailsScreen';
 
 export type TTabBottomNavParamList = {
   [NameScreens.MESSAGES]: undefined;
   [NameScreens.PROFILE]: undefined;
   [NameScreens.SCHEDULE]: undefined;
-  [NameScreens.TODOLIST]: undefined;
+  [NameScreens.TASKDETAILS]: {idTask: number; fromScreen: string};
   [NameNavigators.TODOLISTSTACKNAVIGATOR]: undefined;
+  [NameScreens.TASKINPROGRESS]: undefined;
 };
 
 const TabNav = createBottomTabNavigator<TTabBottomNavParamList>();
@@ -34,7 +35,9 @@ const TabBottonNav = () => {
         headerShown: false,
         tabBarActiveTintColor: Colors.COLOR3,
         tabBarInactiveTintColor: Colors.COLOR1,
-        tabBarStyle: {height: scaleSize(70)},
+        tabBarStyle: {
+          height: scaleSize(70),
+        },
         tabBarLabelStyle: {
           paddingBottom: scaleSize(5),
           fontSize: FontSize.H5,
@@ -50,15 +53,6 @@ const TabBottonNav = () => {
           ),
         }}
       />
-      {/* <TabNav.Screen
-        name={NameScreens.TODOLIST}
-        component={ToDoListScreen}
-        options={{
-          tabBarIcon: ({focused}) => (
-            <IconToDoList fill={focused ? Colors.COLOR3 : Colors.COLOR1} />
-          ),
-        }}
-      /> */}
       <TabNav.Screen
         name={NameNavigators.TODOLISTSTACKNAVIGATOR}
         component={ToDoListStackNav}
@@ -86,6 +80,18 @@ const TabBottonNav = () => {
             <IconProfile stroke={focused ? Colors.COLOR3 : Colors.COLOR1} />
           ),
         }}
+      />
+      <TabNav.Screen
+        name={NameScreens.TASKDETAILS}
+        component={TaskDetailsScreen}
+        options={{
+          tabBarItemStyle: {display: 'none'}, // non visible
+        }}
+        listeners={() => ({
+          tabPress: e => {
+            e.preventDefault(); // Предотвращение нажатия на вкладку
+          },
+        })}
       />
     </TabNav.Navigator>
   );

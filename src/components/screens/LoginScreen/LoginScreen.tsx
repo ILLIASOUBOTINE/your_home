@@ -3,7 +3,7 @@ import {ScrollView} from 'react-native';
 import Btn1 from '../../ui/Btn1/Btn1';
 import {styles} from './style';
 import {stylesGeneral} from '../../stylesGeneral';
-import Title1 from '../../ui/Title1.tsx/Title1';
+import Title1 from '../../ui/Title1/Title1';
 import {useNavigation} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
 import {StackNavigationProp} from '@react-navigation/stack';

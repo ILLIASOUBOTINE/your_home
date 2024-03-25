@@ -9,7 +9,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {TAppStackParamList} from '../../../navigation/AppNav';
 import {NameNavigators} from '../../../types/nameNavigators';
 import {stylesGeneral} from '../../stylesGeneral';
-import Title1 from '../../ui/Title1.tsx/Title1';
+import Title1 from '../../ui/Title1/Title1';
 import FormProfile from '../../general/FormProfile/FormProfile';
 
 const ProfileScreen = () => {

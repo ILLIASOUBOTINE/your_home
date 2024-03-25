@@ -9,6 +9,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {TAppStackParamList} from '../../../navigation/AppNav';
 import {NameNavigators} from '../../../types/nameNavigators';
+import {stylesGeneral} from '../../stylesGeneral';
 
 const FormLogin = () => {
   const navigation = useNavigation<StackNavigationProp<TAppStackParamList>>();
@@ -17,15 +18,15 @@ const FormLogin = () => {
   const [password, setPassword] = useState('');
 
   return (
-    <View style={styles.containerForm}>
+    <View style={stylesGeneral.containerForm}>
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Password"
         value={password}
         secureTextEntry={true}

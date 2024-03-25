@@ -7,7 +7,4 @@ export const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     paddingVertical: scaleSize(10),
   },
-  title: {
-    alignSelf: 'flex-start',
-  },
 });

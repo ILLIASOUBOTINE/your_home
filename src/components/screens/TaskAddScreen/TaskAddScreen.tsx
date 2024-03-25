@@ -1,24 +1,18 @@
 import React from 'react';
-import {Text, View} from 'react-native';
-import Btn1 from '../../ui/Btn1/Btn1';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {TToDoListNavParamList} from '../../../navigation/ToDoListStackNav';
-import {NameScreens} from '../../../types/nameScreens';
+import {ScrollView, View} from 'react-native';
+
+import HeaderToDoList from '../../general/HeaderToDoList/HeaderToDoList';
+import {stylesGeneral} from '../../stylesGeneral';
+import {styles} from './style';
+import FormAddTask from '../../general/FormAddTask/FormAddTask';
 
 const TaskAddScreen = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<TToDoListNavParamList>>();
   return (
-    <View>
-      <Text>TaskAddScreen</Text>
-      <Btn1
-        onPressBtn={() => {
-          navigation.navigate(NameScreens.TASKCOMPLETED);
-        }}>
-        Screen2
-      </Btn1>
-    </View>
+    <ScrollView
+      contentContainerStyle={[stylesGeneral.containerScreen, styles.container]}>
+      <HeaderToDoList />
+      <FormAddTask />
+    </ScrollView>
   );
 };
 

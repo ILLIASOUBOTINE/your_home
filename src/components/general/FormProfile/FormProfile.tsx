@@ -9,6 +9,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 import {NameScreens} from '../../../types/nameScreens';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
+import {stylesGeneral} from '../../stylesGeneral';
 
 const FormProfile = () => {
   const navigation =
@@ -23,46 +24,46 @@ const FormProfile = () => {
   const [conformPassword, setConformPassword] = useState('');
 
   return (
-    <View style={styles.containerForm}>
+    <View style={stylesGeneral.containerForm}>
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="First name"
         value={firstName}
         onChangeText={setFirstName}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Last name"
         value={lastName}
         onChangeText={setLastName}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Phone number"
         value={phoneNumber}
         onChangeText={setPhoneNumber}
       />
       <TextInput
-        style={[styles.input1, styles.input2]}
+        style={[stylesGeneral.input1, stylesGeneral.input2]}
         placeholder="Adress"
         value={adress}
         multiline={true}
         onChangeText={setAdress}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Password"
         value={password}
         onChangeText={setPassword}
       />
       <TextInput
-        style={styles.input1}
+        style={stylesGeneral.input1}
         placeholder="Conform Password"
         value={conformPassword}
         onChangeText={setConformPassword}
