@@ -23,7 +23,6 @@ export type TTabBottomNavParamList = {
   [NameScreens.SCHEDULE]: undefined;
   [NameScreens.TASKDETAILS]: {idTask: number; fromScreen: string};
   [NameNavigators.TODOLISTSTACKNAVIGATOR]: undefined;
-  [NameScreens.TASKINPROGRESS]: undefined;
 };
 
 const TabNav = createBottomTabNavigator<TTabBottomNavParamList>();

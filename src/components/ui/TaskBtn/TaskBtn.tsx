@@ -15,8 +15,7 @@ export type TTaskBtnProps = {
   style?: StyleProp<any>;
   isSchedule?: boolean;
   idTask: number;
-  fromScreen: keyof TTabBottomNavParamList;
-  // onPressBtn?: () => void;
+  fromScreen: string;
 };
 
 const TaskBtn = ({
@@ -25,8 +24,7 @@ const TaskBtn = ({
   isSchedule = false,
   idTask,
   fromScreen,
-}: // onPressBtn,
-TTaskBtnProps) => {
+}: TTaskBtnProps) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
 

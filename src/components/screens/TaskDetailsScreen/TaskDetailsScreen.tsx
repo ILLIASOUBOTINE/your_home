@@ -9,7 +9,6 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
-import {NameNavigators} from '../../../types/nameNavigators';
 
 const TaskDetailsScreen = () => {
   const navigation =
