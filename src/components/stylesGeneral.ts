@@ -18,7 +18,7 @@ export const stylesGeneral = StyleSheet.create({
   },
   input1: {
     backgroundColor: Colors.COLOR2,
-    color: Colors.COLOR1,
+    color: Colors.COLOR6,
     fontSize: FontSize.H5,
     fontFamily: Fonts.INTER500,
     borderWidth: 2,
