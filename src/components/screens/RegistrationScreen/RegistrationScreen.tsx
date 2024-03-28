@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ScrollView} from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
 import Title1 from '../../ui/Title1/Title1';
@@ -9,15 +9,19 @@ import {TLoginAndRegistrationNavParamList} from '../../../navigation/LoginAndReg
 import {NameScreens} from '../../../types/nameScreens';
 import {styles} from './style';
 import FormRegistration from '../../general/FormRegistration/FormRegistration';
+import Loading from '../../ui/Loading/Loading';
 
 const RegistrationScreen = () => {
   const navigation =
     useNavigation<StackNavigationProp<TLoginAndRegistrationNavParamList>>();
 
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <ScrollView contentContainerStyle={stylesGeneral.containerScreen}>
+      {isLoading && <Loading />}
       <Title1>Registration</Title1>
-      <FormRegistration />
+      <FormRegistration setIsLoading={setIsLoading} />
 
       <Btn1
         style={styles.btn1Login}

@@ -10,18 +10,21 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {NameScreens} from '../../../types/nameScreens';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {stylesGeneral} from '../../stylesGeneral';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../store/store';
 
 const FormProfile = () => {
   const navigation =
     useNavigation<StackNavigationProp<TTabBottomNavParamList>>();
+  const userData = useSelector((state: RootState) => state.user);
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [adress, setAdress] = useState('');
-  const [conformPassword, setConformPassword] = useState('');
+  const [email, setEmail] = useState(userData.email);
+  // const [password, setPassword] = useState('');
+  const [firstName, setFirstName] = useState(userData.firstName);
+  const [lastName, setLastName] = useState(userData.lastName);
+  const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
+  const [address, setAdress] = useState(userData.address);
+  // const [conformPassword, setConformPassword] = useState('');
 
   return (
     <View style={stylesGeneral.containerForm}>
@@ -45,8 +48,8 @@ const FormProfile = () => {
       />
       <TextInput
         style={[stylesGeneral.input1, stylesGeneral.input2]}
-        placeholder="Adress"
-        value={adress}
+        placeholder="Address"
+        value={address}
         multiline={true}
         onChangeText={setAdress}
       />
@@ -56,7 +59,7 @@ const FormProfile = () => {
         value={email}
         onChangeText={setEmail}
       />
-      <TextInput
+      {/* <TextInput
         style={stylesGeneral.input1}
         placeholder="Password"
         value={password}
@@ -67,7 +70,7 @@ const FormProfile = () => {
         placeholder="Conform Password"
         value={conformPassword}
         onChangeText={setConformPassword}
-      />
+      /> */}
       <Btn1
         onPressBtn={() => {
           navigation.navigate(NameScreens.PROFILE);

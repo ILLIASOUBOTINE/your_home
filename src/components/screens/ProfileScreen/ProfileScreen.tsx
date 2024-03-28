@@ -11,17 +11,19 @@ import {NameNavigators} from '../../../types/nameNavigators';
 import {stylesGeneral} from '../../stylesGeneral';
 import Title1 from '../../ui/Title1/Title1';
 import FormProfile from '../../general/FormProfile/FormProfile';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../../store/store';
 
 const ProfileScreen = () => {
   const navigation = useNavigation<StackNavigationProp<TAppStackParamList>>();
-
+  const firstName = useSelector((state: RootState) => state.user.firstName);
   return (
     <ScrollView
       contentContainerStyle={[
         stylesGeneral.containerScreen,
         styles.containerScroll,
       ]}>
-      <Title1>Tom</Title1>
+      <Title1>{firstName}</Title1>
 
       <FormProfile />
 

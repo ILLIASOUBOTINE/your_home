@@ -11,41 +11,62 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {TAppStackParamList} from '../../../navigation/AppNav';
 import {NameNavigators} from '../../../types/nameNavigators';
 import {stylesGeneral} from '../../stylesGeneral';
+import {useDispatch} from 'react-redux';
+import {AppDispatch} from '../../../store/store';
+import {fetchUserById} from '../../../store/userReducer';
 
-const FormLogin = () => {
+type TFormLoginParams = {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const FormLogin = ({setIsLoading}: TFormLoginParams) => {
   const navigation = useNavigation<StackNavigationProp<TAppStackParamList>>();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handlerLogin = () => {
+    setIsLoading(true);
+
+    if (!email || !password) {
+      Alert.alert('Login', 'Email or password cannot be empty!');
+      setIsLoading(false);
+      return;
+    }
+
     auth()
       .signInWithEmailAndPassword(email, password)
-      .then(() => {
-        SetDataString(StorageKeys.IS_LOGIN, true);
+      .then(async () => {
+        await SetDataString(StorageKeys.IS_LOGIN, true);
         setEmail('');
         setPassword('');
         console.log('User signed in successfully!');
-
+        const user = auth().currentUser;
+        if (user) {
+          await dispatch(fetchUserById(user.uid));
+        }
         navigation.navigate(NameNavigators.TABBOTTOMNAVIGATOR);
       })
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
           console.log('No user found with this email address!');
           Alert.alert('Login', 'No user found with this email address!');
-        }
-        if (error.code === 'auth/invalid-email') {
+        } else if (error.code === 'auth/invalid-email') {
           console.log('The email address is badly formatted!');
           Alert.alert('Login', 'The email address is badly formatted!');
-        }
-
-        if (error.code === 'auth/wrong-password') {
+        } else if (error.code === 'auth/wrong-password') {
           console.log('The password is invalid for this user!');
           Alert.alert('Login', 'The password is invalid for this user!');
+        } else if (error.code === 'auth/invalid-credential') {
+          console.log('That password is invalid!');
+          Alert.alert('Login', 'That password is invalid!');
+        } else {
+          Alert.alert('Login', 'Try logging in again!');
+          console.error(error);
         }
-
-        console.error(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -54,6 +75,7 @@ const FormLogin = () => {
         style={stylesGeneral.input1}
         placeholder="Email"
         value={email}
+        autoCapitalize="none"
         onChangeText={setEmail}
       />
       <TextInput

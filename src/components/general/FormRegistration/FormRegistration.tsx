@@ -14,7 +14,11 @@ import {NameScreens} from '../../../types/nameScreens';
 import {stylesGeneral} from '../../stylesGeneral';
 import {Colors} from '../../../constans/colors';
 
-const FormRegistration = () => {
+type TFormRegistrationParams = {
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
   const navigation =
     useNavigation<StackNavigationProp<TLoginAndRegistrationNavParamList>>();
 
@@ -26,16 +30,16 @@ const FormRegistration = () => {
   const [adress, setAdress] = useState('');
   const [conformPassword, setConformPassword] = useState('');
 
-  const addUserToBD = () => {
+  const addUserToBD = (uid: string) => {
     firestore()
       .collection('Users')
-      .add({
-        fistName: firstName,
+      .doc(uid)
+      .set({
+        firstName: firstName,
         lastName: lastName,
         adress: adress,
         phoneNumber: phoneNumber,
         email: email,
-        password: password,
       })
       .then(() => {
         Alert.alert('Registration', 'User account created!');
@@ -47,30 +51,42 @@ const FormRegistration = () => {
   };
 
   const handlerRegitration = () => {
+    setIsLoading(true);
+    if (
+      !email ||
+      !password ||
+      !firstName ||
+      !lastName ||
+      !adress ||
+      !phoneNumber
+    ) {
+      Alert.alert('Registration', ' all fields must be filled in');
+      setIsLoading(false);
+      return;
+    }
     auth()
       .createUserWithEmailAndPassword(email, password)
-      .then(() => {
-        console.log('User account created & signed in!');
-        addUserToBD();
+      .then(userCredential => {
+        const user = userCredential.user;
+        console.log('ID', user.uid);
+        addUserToBD(user.uid);
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
           console.log('That email address is already in use!');
           Alert.alert('Registration', 'That email address is already in use!');
-        }
-
-        if (error.code === 'auth/invalid-email') {
+        } else if (error.code === 'auth/invalid-email') {
           console.log('That email address is invalid!');
           Alert.alert('Registration', 'That email address is invalid!');
-        }
-
-        if (error.code === 'auth/weak-password') {
+        } else if (error.code === 'auth/weak-password') {
           console.log('That password is invalid!');
           Alert.alert('Registration', 'That password is invalid!');
+        } else {
+          console.error(error);
+          Alert.alert('Registration', 'An error occurred during registration');
         }
-
-        console.error(error);
-      });
+      })
+      .finally(() => setIsLoading(false));
   };
 
   return (
@@ -108,6 +124,7 @@ const FormRegistration = () => {
         style={stylesGeneral.input1}
         placeholder="Email"
         placeholderTextColor={Colors.COLOR1}
+        autoCapitalize="none"
         value={email}
         onChangeText={setEmail}
       />

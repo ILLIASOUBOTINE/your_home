@@ -1,10 +1,8 @@
 export default interface User {
-  id?: number;
-  fistName: string;
+  id: string;
+  firstName: string;
   lastName: string;
   phoneNumber: string;
-  adress: string;
+  address: string;
   email: string;
-  password: string;
-  isLogin?: boolean;
 }
