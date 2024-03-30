@@ -9,34 +9,35 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {NameScreens} from '../../../types/nameScreens';
+import Task from '../../../types/Task';
 
 export type TTaskBtnProps = {
   children: any;
   style?: StyleProp<any>;
-  isSchedule?: boolean;
-  idTask: number;
+  // isSchedule?: boolean;
+  task: Task;
   fromScreen: string;
 };
 
 const TaskBtn = ({
   children,
   style,
-  isSchedule = false,
-  idTask,
+  // isSchedule = false,
+  task,
   fromScreen,
 }: TTaskBtnProps) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
 
   const onPressBtn = () => {
-    navigation.navigate(NameScreens.TASKDETAILS, {idTask, fromScreen});
+    navigation.navigate(NameScreens.TASKDETAILS, {task, fromScreen});
   };
 
   return (
     <TouchableOpacity style={[styles.containerBtn, style]} onPress={onPressBtn}>
       <View style={styles.containerText}>
         <Text style={styles.textBtn}>{children}</Text>
-        {isSchedule ? (
+        {task.schedule && (
           <View style={styles.containerOptional}>
             <IconSchedule
               fill={Colors.COLOR1}
@@ -45,7 +46,7 @@ const TaskBtn = ({
             />
             <Text style={styles.textOptional}>Schedule</Text>
           </View>
-        ) : null}
+        )}
       </View>
       <IconFlashRight
         height={scaleSize(30)}

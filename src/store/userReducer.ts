@@ -63,7 +63,7 @@ export const userSlice = createSlice({
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         const userData = action.payload;
-        // state.id = userData.id;
+        state.id = userData.id;
         state.firstName = userData.firstName;
         state.lastName = userData.lastName;
         state.phoneNumber = userData.phoneNumber;

@@ -11,8 +11,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {TAppStackParamList} from '../../../navigation/AppNav';
 import {NameNavigators} from '../../../types/nameNavigators';
 import {stylesGeneral} from '../../stylesGeneral';
-import {useDispatch} from 'react-redux';
-import {AppDispatch} from '../../../store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../../store/store';
 import {fetchUserById} from '../../../store/userReducer';
 
 type TFormLoginParams = {
@@ -22,6 +22,8 @@ type TFormLoginParams = {
 const FormLogin = ({setIsLoading}: TFormLoginParams) => {
   const navigation = useNavigation<StackNavigationProp<TAppStackParamList>>();
   const dispatch = useDispatch<AppDispatch>();
+
+  const userData = useSelector((state: RootState) => state.user);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -82,6 +84,7 @@ const FormLogin = ({setIsLoading}: TFormLoginParams) => {
         style={stylesGeneral.input1}
         placeholder="Password"
         value={password}
+        autoCapitalize="none"
         // secureTextEntry={true}
         onChangeText={setPassword}
       />

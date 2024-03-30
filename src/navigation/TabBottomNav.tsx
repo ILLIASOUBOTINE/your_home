@@ -16,12 +16,13 @@ import {Fonts} from '../constans/fonts';
 import {NameNavigators} from '../types/nameNavigators';
 import ToDoListStackNav from './ToDoListStackNav';
 import TaskDetailsScreen from '../components/screens/TaskDetailsScreen/TaskDetailsScreen';
+import Task from '../types/Task';
 
 export type TTabBottomNavParamList = {
   [NameScreens.MESSAGES]: undefined;
   [NameScreens.PROFILE]: undefined;
   [NameScreens.SCHEDULE]: undefined;
-  [NameScreens.TASKDETAILS]: {idTask: number; fromScreen: string};
+  [NameScreens.TASKDETAILS]: {task: Task; fromScreen: string};
   [NameNavigators.TODOLISTSTACKNAVIGATOR]: undefined;
 };
 

@@ -9,13 +9,16 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
+import {Status} from '../../../types/status';
 
 const TaskDetailsScreen = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
   const route =
     useRoute<RouteProp<TTabBottomNavParamList, NameScreens.TASKDETAILS>>();
-  const {idTask, fromScreen} = route.params;
+  // const {idTask, fromScreen} = route.params;
+  const {task, fromScreen} = route.params;
+  console.log(task.dateCreation);
 
   const onPressBtn = () => {
     navigation.navigate(fromScreen);
@@ -28,18 +31,31 @@ const TaskDetailsScreen = () => {
       </TouchableOpacity>
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.textBlock}>
-          <Text style={styles.textId}>№ {idTask}</Text>
-          <Text1 title="creation date:" text="01.04.2003" isRow={true} />
-          <Text1 title="status:" text="Completed (12.04.2003)" isRow={true} />
-        </View>
-        <View style={styles.textBlock}>
-          <Text1 title="Title:" text="Air Filter Remplacement" />
-        </View>
-        <View style={styles.textBlock}>
+          <Text style={styles.textId}>№ {task.id}</Text>
           <Text1
-            title="Description:"
-            text="Excepteur sint occaecat cupidatat non proident, sunt in "
+            title="creation date:"
+            text={new Date(
+              task.dateCreation._seconds * 1000,
+            ).toLocaleDateString()}
+            isRow={true}
           />
+          {task.status === Status.INPROGRESS ? (
+            <Text1 title="status:" text={task.status} isRow={true} />
+          ) : (
+            <Text1
+              title="status:"
+              text={`${task.status} (${new Date(
+                task.dateCompleted._seconds * 1000,
+              ).toLocaleDateString()})`}
+              isRow={true}
+            />
+          )}
+        </View>
+        <View style={styles.textBlock}>
+          <Text1 title="Title:" text={task.title} />
+        </View>
+        <View style={styles.textBlock}>
+          <Text1 title="Description:" text={task.description} />
         </View>
         <View style={styles.textBlock}>
           <Text style={styles.textPhoto}>Photos</Text>
