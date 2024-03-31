@@ -2,7 +2,7 @@ export default interface Task {
   id?: string;
   title: string;
   description: string;
-  photos: [];
+  photos: string[] | null;
   status: string;
   schedule: boolean;
   userId: string | null;

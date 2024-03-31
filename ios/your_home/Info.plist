@@ -71,5 +71,9 @@
 		<string>Roboto-Thin.ttf</string>
 		<string>Roboto-ThinItalic.ttf</string>
 	</array>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Explanation for why this app requires access to the photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Explanation for why this app requires access to the camera</string>
 </dict>
 </plist>

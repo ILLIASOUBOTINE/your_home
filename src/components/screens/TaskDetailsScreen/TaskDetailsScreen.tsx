@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
+import storage from '@react-native-firebase/storage';
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
 import {styles} from './style';
@@ -16,9 +17,35 @@ const TaskDetailsScreen = () => {
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
   const route =
     useRoute<RouteProp<TTabBottomNavParamList, NameScreens.TASKDETAILS>>();
-  // const {idTask, fromScreen} = route.params;
+  const [images, setImages] = useState<string[]>([]);
   const {task, fromScreen} = route.params;
-  console.log(task.dateCreation);
+
+  useEffect(() => {
+    if (task.photos) {
+      getImageUrls(task.photos);
+    }
+  }, [task]);
+  //Создаем ссылку на бакет Cloud Storage
+  const storageRef = storage().ref();
+
+  // Функция для получения URL каждой картинки из массива
+  const getImageUrls = async (fileNames: string[]) => {
+    try {
+      const urls = await Promise.all(
+        fileNames.map(async fileName => {
+          const imageRef = storageRef.child(fileName);
+          return await imageRef.getDownloadURL();
+        }),
+      );
+      setImages(urls);
+      console.log('Download URLs:', urls);
+      // Здесь вы можете использовать полученные URLs для отображения изображений в вашем приложении
+      return urls;
+    } catch (error) {
+      console.error('Error getting download URLs:', error);
+      throw error;
+    }
+  };
 
   const onPressBtn = () => {
     navigation.navigate(fromScreen);
@@ -60,18 +87,14 @@ const TaskDetailsScreen = () => {
         <View style={styles.textBlock}>
           <Text style={styles.textPhoto}>Photos</Text>
           <View style={styles.containerImg}>
-            <Image
-              style={styles.img}
-              source={require('../../../../assets/image/img1.png')}
-            />
-            <Image
-              style={styles.img}
-              source={require('../../../../assets/image/img2.png')}
-            />
-            <Image
-              style={styles.img}
-              source={require('../../../../assets/image/img3.png')}
-            />
+            {task.photos &&
+              images.map((url, index) => (
+                <Image
+                  key={`${url}Image`}
+                  style={styles.img}
+                  source={{uri: url}}
+                />
+              ))}
           </View>
         </View>
       </ScrollView>

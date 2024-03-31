@@ -25,7 +25,7 @@ const TaskInProgressScreen = () => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      console.log('usreId', userId);
+      // console.log('usreId', userId);
 
       const snapshot = await firestore()
         .collection('Tasks')
@@ -36,7 +36,7 @@ const TaskInProgressScreen = () => {
           ),
         )
         .get();
-      console.log('TaskINprogress', snapshot.docs);
+      // console.log('TaskINprogress', snapshot.docs);
 
       const taskData = snapshot.docs.map(doc => {
         const data = doc.data();
@@ -54,7 +54,7 @@ const TaskInProgressScreen = () => {
         return task;
       });
       setTaskInprogress(taskData);
-      console.log('TaskINprogress2', taskData);
+      // console.log('TaskINprogress2', taskData);
     } catch (error) {
       console.error('Error fetching tasks:', error);
     } finally {

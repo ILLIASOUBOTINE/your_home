@@ -38,6 +38,8 @@ export const styles = StyleSheet.create({
     paddingVertical: scaleSize(10),
   },
   img: {
-    flexBasis: '45%',
+    // flexBasis: '45%',
+    width: scaleSize(125),
+    height: scaleSize(125),
   },
 });
