@@ -1,6 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import storage from '@react-native-firebase/storage';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
 import {styles} from './style';
 import IconFlashGoBack from '../../../../assets/icon_app/flashGoBack.svg';
@@ -12,24 +19,29 @@ import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
 import {Status} from '../../../types/status';
 
+import {Colors} from '../../../constans/colors';
+
 const TaskDetailsScreen = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
   const route =
     useRoute<RouteProp<TTabBottomNavParamList, NameScreens.TASKDETAILS>>();
-  const [images, setImages] = useState<string[]>([]);
   const {task, fromScreen} = route.params;
+  const [images, setImages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (task.photos) {
-      getImageUrls(task.photos);
+    if (task.photos.length != 0) {
+      setIsLoading(true);
+      getImageUrls(task.photos).finally(() => {
+        setIsLoading(false);
+      });
     }
   }, [task]);
-  //Создаем ссылку на бакет Cloud Storage
-  const storageRef = storage().ref();
 
-  // Функция для получения URL каждой картинки из массива
   const getImageUrls = async (fileNames: string[]) => {
+    //Создаем ссылку на бакет Cloud Storage
+    const storageRef = storage().ref();
     try {
       const urls = await Promise.all(
         fileNames.map(async fileName => {
@@ -38,8 +50,7 @@ const TaskDetailsScreen = () => {
         }),
       );
       setImages(urls);
-      console.log('Download URLs:', urls);
-      // Здесь вы можете использовать полученные URLs для отображения изображений в вашем приложении
+
       return urls;
     } catch (error) {
       console.error('Error getting download URLs:', error);
@@ -84,19 +95,25 @@ const TaskDetailsScreen = () => {
         <View style={styles.textBlock}>
           <Text1 title="Description:" text={task.description} />
         </View>
-        <View style={styles.textBlock}>
-          <Text style={styles.textPhoto}>Photos</Text>
-          <View style={styles.containerImg}>
-            {task.photos &&
-              images.map((url, index) => (
-                <Image
-                  key={`${url}Image`}
-                  style={styles.img}
-                  source={{uri: url}}
-                />
-              ))}
+        {task.photos.length != 0 && (
+          <View style={styles.textBlock}>
+            <Text style={styles.textPhoto}>Photos</Text>
+            {isLoading ? (
+              <ActivityIndicator size={'large'} color={Colors.COLOR4} />
+            ) : (
+              <View style={styles.containerImg}>
+                {task.photos.length != 0 &&
+                  images.map((url, index) => (
+                    <Image
+                      key={`${url}Image`}
+                      style={styles.img}
+                      source={{uri: url}}
+                    />
+                  ))}
+              </View>
+            )}
           </View>
-        </View>
+        )}
       </ScrollView>
     </View>
   );

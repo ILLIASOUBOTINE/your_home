@@ -25,11 +25,12 @@ export const stylesGeneral = StyleSheet.create({
     borderColor: Colors.COLOR1,
     borderRadius: scaleSize(8),
     width: '100%',
-    height: scaleSize(36),
-    paddingLeft: scaleSize(10),
+    // lineHeight: scaleSize(36),
+    // height: scaleSize(36),
+    padding: scaleSize(10),
   },
   input2: {
-    height: scaleSize(82),
+    minHeight: scaleSize(82),
   },
   containerForm: {width: '100%', gap: scaleSize(14)},
 });

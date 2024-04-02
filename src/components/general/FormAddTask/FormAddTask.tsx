@@ -1,8 +1,8 @@
-import React, {useCallback, useState} from 'react';
+import React, {useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import * as ImagePicker from 'react-native-image-picker';
-import {Alert, Image, TextInput, View} from 'react-native';
+import {Alert, Image, PermissionsAndroid, TextInput, View} from 'react-native';
 
 import {styles} from './style';
 import Btn1 from '../../ui/Btn1/Btn1';
@@ -16,133 +16,149 @@ type TFormAddTaskParams = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-/* toggle includeExtra */
-const includeExtra = true;
-
 const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
   const userId = useSelector((state: RootState) => state.user.id);
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [images, setImages] = useState<string[] | null>(null);
-  const [response, setResponse] = useState<any>(null);
 
-  const createNewTask = (): Task => {
+  const [responsePhoto, setResponsePhoto] = useState<ImagePicker.Asset[]>([]);
+
+  const createNewTask = (images: string[]): Task => {
     const newTask: Task = {
       title: title,
       description: description,
-      photos: createArrUriPhotoLocal(response),
+      photos: images,
       status: Status.INPROGRESS,
       schedule: false,
       userId: userId,
       dateCreation: new Date(),
       dateCompleted: null,
     };
-
-    console.log('userId', userId);
     return {...newTask};
   };
 
-  const createArrUriPhotoLocal = (response: any) => {
-    if (!response) return null;
-    const result = response.assets.map((asset: any) => asset.fileName);
-    console.log('Filename', result);
-
-    return result;
+  const uploadTaskInFirestore = async (newTask: Task) => {
+    try {
+      const uploadedTaskInFirestore = await firestore()
+        .collection('Tasks')
+        .add(newTask);
+      return uploadedTaskInFirestore;
+    } catch (error) {
+      throw error;
+    }
   };
 
-  const handlerAddTask = () => {
+  const handlerAddTask = async () => {
     setIsLoading(true);
+
     if (!title || !description) {
       Alert.alert('Add task', ' all fields must be filled in');
       setIsLoading(false);
       return;
     }
-    firestore()
-      .collection('Tasks')
-      .add(createNewTask())
-      .then(() => {
-        if (images?.length !== 0) {
-          uploadImages().then(() => {
-            Alert.alert('Add Task', 'Task added!');
-            setTitle('');
-            setDescription('');
-            setImages(null);
-            setResponse(null);
-          });
-        } else {
-          Alert.alert('Add Task', 'Task added!');
-          setTitle('');
-          setDescription('');
-        }
-      })
-      .catch(error => {
-        Alert.alert('addTaskToBD', error);
-      })
-      .finally(() => setIsLoading(false));
+
+    try {
+      const imagePathInStorage = await uploadImagesInStorage();
+
+      const newTask = createNewTask(imagePathInStorage);
+      await uploadTaskInFirestore(newTask);
+      Alert.alert('Add Task', 'Task added!');
+      setTitle('');
+      setDescription('');
+
+      setResponsePhoto([]);
+    } catch (error) {
+      Alert.alert('Add Task', 'Task didn`t add!');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  const onButtonPress = useCallback((type, options) => {
-    if (type === 'capture') {
-      ImagePicker.launchCamera(options, setResponse);
-      console.log('Response', response);
-    } else {
-      ImagePicker.launchImageLibrary(options, setResponse);
-      console.log('Response', response);
+  const handlerCameraLaunch = async () => {
+    const options: ImagePicker.CameraOptions = {
+      mediaType: 'photo',
+      quality: 0.1,
+      includeBase64: false,
+      maxHeight: 500,
+      maxWidth: 500,
+    };
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        ImagePicker.launchCamera(options, response => {
+          if (response.didCancel) {
+            console.log('User cancelled camera');
+          } else if (response.errorCode) {
+            console.log('Camera Error: ', response.errorCode);
+          } else {
+            if (response.assets !== undefined) {
+              const newAssets = [...response.assets];
+              setResponsePhoto(prev => [...prev, ...newAssets]);
+              console.log('asset', response.assets);
+            }
+          }
+        });
+      } else {
+        Alert.alert(
+          'Permission Denied',
+          'You need to grant camera permission to take a picture.',
+        );
+      }
+    } catch (error) {
+      console.error('Error requesting camera permission: ', error);
     }
-  }, []);
+  };
 
-  interface Action {
-    title: string;
-    type: 'capture' | 'library';
-    options: ImagePicker.CameraOptions | ImagePicker.ImageLibraryOptions;
-  }
+  const handlerLaunchImageLibrary = () => {
+    const options: ImagePicker.ImageLibraryOptions = {
+      mediaType: 'photo',
+      quality: 0.1,
+      includeBase64: false,
+      maxHeight: 500,
+      maxWidth: 500,
+    };
 
-  const actions: Action[] = [
-    {
-      title: 'Take Image',
-      type: 'capture',
-      options: {
-        saveToPhotos: true,
-        mediaType: 'photo',
-        quality: 0.5,
-        includeBase64: false,
-        includeExtra,
-      },
-    },
-    {
-      title: 'Select Image',
-      type: 'library',
-      options: {
-        selectionLimit: 0,
-        mediaType: 'photo',
-        quality: 0.5,
-        includeBase64: false,
-        includeExtra,
-      },
-    },
-  ];
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled camera');
+      } else if (response.errorCode) {
+        console.log('Camera Error: ', response.errorCode);
+      } else {
+        if (response.assets !== undefined) {
+          const newAssets = [...response.assets];
+          setResponsePhoto(prev => [...prev, ...newAssets]);
+          console.log('asset', response.assets);
+        }
+      }
+    });
+  };
 
-  const uploadImages = async () => {
-    setImages(createArrUriPhotoLocal(response));
-    const uploadTasks = response.assets!.map(async (asset: any) => {
-      const reference = storage().ref(asset.fileName);
+  const uploadImagesInStorage = async () => {
+    const uploadTasks = responsePhoto.map(async (asset: ImagePicker.Asset) => {
+      const pathToFile = asset.uri;
+      const fileNameImg = asset.fileName;
+      const reference = storage().ref(fileNameImg);
+
       try {
-        const pathToFile = asset.uri;
-        console.log('Path', pathToFile);
+        if (pathToFile && fileNameImg) {
+          await reference.putFile(pathToFile);
 
-        await reference.putFile(pathToFile);
-        console.log(`Image ${asset.fileName} uploaded successfully.`);
-        return asset.fileName;
+          return fileNameImg;
+        }
+
+        throw new Error('Path to file or file name is invalid');
       } catch (error) {
-        console.error(`Error uploading image ${asset.fileName}: `, error);
+        console.error(`Error uploading image ${fileNameImg}: `, error);
         throw error;
       }
     });
 
     try {
       const uploadedImages = await Promise.all(uploadTasks);
-      console.log('All images uploaded successfully:', uploadedImages);
+      return uploadedImages;
     } catch (error) {
       console.error('Error uploading images: ', error);
       throw error;
@@ -165,36 +181,24 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
         onChangeText={setDescription}
       />
       <View style={styles.imgsContainer}>
-        {response?.assets &&
-          response?.assets.map(
-            ({
-              id,
-              uri,
-              fileName,
-            }: {
-              id: string;
-              uri: string;
-              fileName: string;
-            }) => (
-              <View key={id} style={styles.imageContainer}>
-                <Image
-                  key={fileName}
-                  resizeMode="cover"
-                  resizeMethod="scale"
-                  style={styles.image}
-                  source={{uri: uri}}
-                />
-              </View>
-            ),
-          )}
+        {responsePhoto.length !== 0 &&
+          responsePhoto.map((asset: ImagePicker.Asset, index) => (
+            <View
+              key={`${new Date().getSeconds()}${index}`}
+              style={styles.imageContainer}>
+              <Image
+                key={`${new Date().getSeconds()}Img${index}`}
+                resizeMode="cover"
+                resizeMethod="scale"
+                style={styles.image}
+                source={{uri: asset.uri}}
+              />
+            </View>
+          ))}
       </View>
 
-      {actions.map(({title, options, type}) => (
-        <Btn1 key={title} onPressBtn={() => onButtonPress(type, options)}>
-          {title}
-        </Btn1>
-      ))}
-
+      <Btn1 onPressBtn={handlerLaunchImageLibrary}>Select photo</Btn1>
+      <Btn1 onPressBtn={handlerCameraLaunch}>Take photo</Btn1>
       <Btn1 onPressBtn={handlerAddTask}>Add Task</Btn1>
     </View>
   );

@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     gap: scaleSize(15),
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
     paddingVertical: scaleSize(10),
   },
   img: {
