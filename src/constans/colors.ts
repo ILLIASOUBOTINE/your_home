@@ -5,4 +5,5 @@ export enum Colors {
   COLOR4 = '#275F63',
   COLOR5 = '#E8E8E8',
   COLOR6 = '#061E18',
+  COLOR7 = '#960000',
 }

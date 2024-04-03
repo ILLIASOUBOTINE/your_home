@@ -2,7 +2,13 @@ import React, {useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import * as ImagePicker from 'react-native-image-picker';
-import {Alert, Image, PermissionsAndroid, TextInput, View} from 'react-native';
+import {
+  Alert,
+  PermissionsAndroid,
+  Platform,
+  TextInput,
+  View,
+} from 'react-native';
 
 import {styles} from './style';
 import Btn1 from '../../ui/Btn1/Btn1';
@@ -11,6 +17,8 @@ import Task from '../../../types/Task';
 import {Status} from '../../../types/status';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
+import ImgTask from '../../ui/ImgTask/ImgTask';
+import ImgTaskPhoto from '../../ui/ImgTaskPhoto/ImgTaskPhoto';
 
 type TFormAddTaskParams = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -21,8 +29,8 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
 
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-
   const [responsePhoto, setResponsePhoto] = useState<ImagePicker.Asset[]>([]);
+  const [isHidePhoto, setIsHidePhoto] = useState<boolean>(true);
 
   const createNewTask = (images: string[]): Task => {
     const newTask: Task = {
@@ -83,29 +91,38 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
       maxHeight: 500,
       maxWidth: 500,
     };
-    try {
-      const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.CAMERA,
-      );
-      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        ImagePicker.launchCamera(options, response => {
-          if (response.didCancel) {
-            console.log('User cancelled camera');
-          } else if (response.errorCode) {
-            console.log('Camera Error: ', response.errorCode);
-          } else {
-            if (response.assets !== undefined) {
-              const newAssets = [...response.assets];
-              setResponsePhoto(prev => [...prev, ...newAssets]);
-              console.log('asset', response.assets);
-            }
+    const launchCamera = () => {
+      ImagePicker.launchCamera(options, response => {
+        if (response.didCancel) {
+          console.log('User cancelled camera');
+        } else if (response.errorCode) {
+          console.log('Camera Error: ', response.errorCode);
+        } else {
+          if (response.assets !== undefined) {
+            const newAssets = [...response.assets];
+            setResponsePhoto(prev => [...prev, ...newAssets]);
+            console.log('asset', response.assets);
           }
-        });
-      } else {
-        Alert.alert(
-          'Permission Denied',
-          'You need to grant camera permission to take a picture.',
+        }
+      });
+    };
+    try {
+      if (Platform.OS === 'android') {
+        const grantedAndroid = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
         );
+
+        if (grantedAndroid === PermissionsAndroid.RESULTS.GRANTED) {
+          launchCamera();
+        } else {
+          Alert.alert(
+            'Permission Denied',
+            'You need to grant camera permission to take a picture.',
+          );
+        }
+      }
+      if (Platform.OS === 'ios') {
+        launchCamera();
       }
     } catch (error) {
       console.error('Error requesting camera permission: ', error);
@@ -165,6 +182,29 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
     }
   };
 
+  const handlerAddPhoto = () => {
+    setIsHidePhoto(prev => !prev);
+  };
+
+  const handlerDeletePhoto = (indexPhoto: number) => {
+    Alert.alert('Do you wont delete photo?', undefined, [
+      {
+        text: 'Cancel',
+        style: 'cancel',
+      },
+      {
+        text: 'Delete',
+        style: 'destructive',
+        onPress: () => {
+          const newArr = responsePhoto.filter(
+            (_, index) => index !== indexPhoto,
+          );
+          setResponsePhoto(newArr);
+        },
+      },
+    ]);
+  };
+
   return (
     <View style={stylesGeneral.containerForm}>
       <TextInput
@@ -180,25 +220,30 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
         multiline={true}
         onChangeText={setDescription}
       />
-      <View style={styles.imgsContainer}>
-        {responsePhoto.length !== 0 &&
-          responsePhoto.map((asset: ImagePicker.Asset, index) => (
-            <View
-              key={`${new Date().getSeconds()}${index}`}
-              style={styles.imageContainer}>
-              <Image
-                key={`${new Date().getSeconds()}Img${index}`}
-                resizeMode="cover"
-                resizeMethod="scale"
-                style={styles.image}
-                source={{uri: asset.uri}}
+      {!isHidePhoto && (
+        <View style={styles.imgsContainer}>
+          <ImgTask
+            onPressSelectPhoto={handlerLaunchImageLibrary}
+            onPressTakePhoto={handlerCameraLaunch}
+          />
+          {responsePhoto.length !== 0 &&
+            responsePhoto.map((asset: ImagePicker.Asset, index) => (
+              <ImgTaskPhoto
+                key={`${new Date().getSeconds()}${index}`}
+                onPressDelletePhoto={() => handlerDeletePhoto(index)}
+                urlImage={asset.uri}
               />
-            </View>
-          ))}
-      </View>
+            ))}
+        </View>
+      )}
+      <Btn1 onPressBtn={handlerAddPhoto}>
+        {!isHidePhoto
+          ? 'Hide photo'
+          : responsePhoto.length == 0
+          ? 'Add photo'
+          : `Add photo (${responsePhoto.length})`}
+      </Btn1>
 
-      <Btn1 onPressBtn={handlerLaunchImageLibrary}>Select photo</Btn1>
-      <Btn1 onPressBtn={handlerCameraLaunch}>Take photo</Btn1>
       <Btn1 onPressBtn={handlerAddTask}>Add Task</Btn1>
     </View>
   );

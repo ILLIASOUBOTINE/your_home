@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import {WINDOW_HEIGHT, scaleSize} from '../../../utils/scaleSize';
+import {scaleSize} from '../../../utils/scaleSize';
 import {Colors} from '../../../constans/colors';
 import {FontSize} from '../../../constans/fontSize';
 import {Fonts} from '../../../constans/fonts';
