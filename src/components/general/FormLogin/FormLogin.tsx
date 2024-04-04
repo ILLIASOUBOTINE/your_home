@@ -14,6 +14,7 @@ import {stylesGeneral} from '../../stylesGeneral';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../../store/store';
 import {fetchUserById} from '../../../store/userReducer';
+import {fetchTasksByUserId} from '../../../store/taskReducer';
 
 type TFormLoginParams = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,6 +48,7 @@ const FormLogin = ({setIsLoading}: TFormLoginParams) => {
         const user = auth().currentUser;
         if (user) {
           await dispatch(fetchUserById(user.uid));
+          await dispatch(fetchTasksByUserId(user.uid));
         }
         navigation.navigate(NameNavigators.TABBOTTOMNAVIGATOR);
       })

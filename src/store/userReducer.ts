@@ -1,6 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import type {PayloadAction} from '@reduxjs/toolkit';
-import auth from '@react-native-firebase/auth';
+
 import firestore from '@react-native-firebase/firestore';
 import User from '../types/User';
 
@@ -55,11 +54,11 @@ export const userSlice = createSlice({
   extraReducers: builder => {
     builder
       .addCase(fetchUserById.pending, (state, action) => {
-        console.log('PENDING');
+        console.log('UserPENDING');
       })
       .addCase(fetchUserById.rejected, (state, action) => {
         state.error = action.payload;
-        console.log('REJECTED');
+        console.log('UserREJECTED');
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         const userData = action.payload;
@@ -70,7 +69,7 @@ export const userSlice = createSlice({
         state.address = userData.address;
         state.email = userData.email;
         state.isLogin = true;
-        console.log('REQUEST FINISHED FULLFILLED');
+        console.log('UserREQUEST FINISHED FULLFILLED');
       });
   },
 });

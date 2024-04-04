@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView, View} from 'react-native';
+import {ScrollView} from 'react-native';
 
 import HeaderToDoList from '../../general/HeaderToDoList/HeaderToDoList';
 import {stylesGeneral} from '../../stylesGeneral';

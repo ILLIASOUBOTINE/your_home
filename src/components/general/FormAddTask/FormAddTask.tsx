@@ -39,6 +39,7 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
       photos: images,
       status: Status.INPROGRESS,
       schedule: false,
+      dateSchedule: null,
       userId: userId,
       dateCreation: new Date(),
       dateCompleted: null,
