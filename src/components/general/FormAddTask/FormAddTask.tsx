@@ -19,6 +19,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
 import ImgTask from '../../ui/ImgTask/ImgTask';
 import ImgTaskPhoto from '../../ui/ImgTaskPhoto/ImgTaskPhoto';
+import {NameCollection} from '../../../constans/nameCollection';
 
 type TFormAddTaskParams = {
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
@@ -47,10 +48,25 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
     return {...newTask};
   };
 
+  // const uploadTaskInFirestore = async (newTask: Task) => {
+  //   try {
+  //     const uploadedTaskInFirestore = await firestore()
+  //       .collection(NameCollection.TASKS)
+  //       .add(newTask);
+  //     return uploadedTaskInFirestore;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
+
   const uploadTaskInFirestore = async (newTask: Task) => {
     try {
+      console.log('UerID', userId);
+
       const uploadedTaskInFirestore = await firestore()
-        .collection('Tasks')
+        .collection(NameCollection.USERS)
+        .doc(userId!)
+        .collection(NameCollection.TASKS)
         .add(newTask);
       return uploadedTaskInFirestore;
     } catch (error) {

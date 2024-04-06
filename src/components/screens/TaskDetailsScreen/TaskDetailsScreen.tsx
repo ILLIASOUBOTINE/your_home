@@ -17,21 +17,22 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
-import {Status} from '../../../types/status';
 
 import {Colors} from '../../../constans/colors';
+import {dateFromReduxToDate} from '../../../utils/convertTask';
 
 const TaskDetailsScreen = () => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
   const route =
     useRoute<RouteProp<TTabBottomNavParamList, NameScreens.TASKDETAILS>>();
+
   const {task, fromScreen} = route.params;
   const [images, setImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    if (task.photos.length != 0) {
+    if (task.photos.length !== 0) {
       setIsLoading(true);
       getImageUrls(task.photos).finally(() => {
         setIsLoading(false);
@@ -59,7 +60,8 @@ const TaskDetailsScreen = () => {
   };
 
   const onPressBtn = () => {
-    navigation.navigate(fromScreen);
+    // navigation.navigate(fromScreen);
+    navigation.goBack();
   };
 
   return (
@@ -72,19 +74,17 @@ const TaskDetailsScreen = () => {
           <Text style={styles.textId}>№ {task.id}</Text>
           <Text1
             title="creation date:"
-            text={new Date(
-              task.dateCreation._seconds * 1000,
-            ).toLocaleDateString()}
+            text={dateFromReduxToDate(task.dateCreation).toUTCString()}
             isRow={true}
           />
-          {task.status === Status.INPROGRESS ? (
+          {task.dateCompleted === null ? (
             <Text1 title="status:" text={task.status} isRow={true} />
           ) : (
             <Text1
               title="status:"
-              text={`${task.status} (${new Date(
-                task.dateCompleted._seconds * 1000,
-              ).toLocaleDateString()})`}
+              text={`${task.status} (${dateFromReduxToDate(
+                task.dateCompleted,
+              ).toUTCString()})`}
               isRow={true}
             />
           )}
@@ -95,7 +95,7 @@ const TaskDetailsScreen = () => {
         <View style={styles.textBlock}>
           <Text1 title="Description:" text={task.description} />
         </View>
-        {task.photos.length != 0 && (
+        {task.photos.length !== 0 && (
           <View style={styles.textBlock}>
             <Text style={styles.textPhoto}>Photos</Text>
             {isLoading ? (

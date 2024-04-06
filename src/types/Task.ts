@@ -1,38 +1,31 @@
 import {DateFromFirestore} from '../utils/convertTask';
 
-export default interface Task {
-  id?: string;
+interface TaskBase {
   title: string;
   description: string;
   photos: string[];
   status: string;
   schedule: boolean;
+}
+
+export default interface Task extends TaskBase {
+  id?: string;
   dateSchedule: Date | null;
   userId: string | null;
   dateCreation: Date;
   dateCompleted: Date | null;
 }
 
-export interface TaskForRedux {
+export interface TaskForRedux extends TaskBase {
   id: string;
-  title: string;
-  description: string;
-  photos: string[];
-  status: string;
-  schedule: boolean;
   dateSchedule: string | null;
   userId: string;
   dateCreation: string;
   dateCompleted: string | null;
 }
 
-export interface TaskFromFirestore {
+export interface TaskFromFirestore extends TaskBase {
   id: string;
-  title: string;
-  description: string;
-  photos: string[];
-  status: string;
-  schedule: boolean;
   dateSchedule: DateFromFirestore | null;
   userId: string;
   dateCreation: DateFromFirestore;

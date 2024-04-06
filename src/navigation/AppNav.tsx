@@ -4,12 +4,12 @@ import {SafeAreaView} from 'react-native';
 
 import {NameNavigators} from '../types/nameNavigators';
 import TabBottonNav from './TabBottomNav';
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import LoginAndRegistrationStackNav from './LoginAndRegistrationStackNav';
 import {GetDataString} from '../storage/storage';
 import {StorageKeys} from '../storage/storage-keys';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppDispatch, RootState} from '../store/store';
+import {useSelector} from 'react-redux';
+import {RootState} from '../store/store';
 
 export type TAppStackParamList = {
   [NameNavigators.TABBOTTOMNAVIGATOR]: undefined;
@@ -19,8 +19,8 @@ export type TAppStackParamList = {
 const AppStack = createStackNavigator<TAppStackParamList>();
 
 const AppNav = () => {
-  const isLogin = useSelector((state: RootState) => state.user.isLogin);
-  const dispatch = useDispatch<AppDispatch>();
+  const {isLogin} = useSelector((state: RootState) => state.user);
+
   // const [isLogin, setIsLogin] = useState<boolean>(false);
 
   // useEffect(() => {

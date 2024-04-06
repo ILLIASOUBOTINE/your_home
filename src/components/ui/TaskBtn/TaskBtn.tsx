@@ -9,23 +9,16 @@ import {useNavigation} from '@react-navigation/native';
 import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {NameScreens} from '../../../types/nameScreens';
-import Task from '../../../types/Task';
+import {TaskForRedux} from '../../../types/Task';
 
 export type TTaskBtnProps = {
   children: any;
   style?: StyleProp<any>;
-  // isSchedule?: boolean;
-  task: Task;
+  task: TaskForRedux;
   fromScreen: string;
 };
 
-const TaskBtn = ({
-  children,
-  style,
-  // isSchedule = false,
-  task,
-  fromScreen,
-}: TTaskBtnProps) => {
+const TaskBtn = ({children, style, task, fromScreen}: TTaskBtnProps) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
 

@@ -17,8 +17,9 @@ const HeaderToDoList = () => {
     <View style={styles.container}>
       <Title1 style={styles.title}>To-do List</Title1>
       <Text style={[stylesGeneral.text1, styles.text]}>
-        We’ve completed {numberTaskCompletedYear} tasks off your To-do list this
-        year.
+        {numberTaskCompletedYear === 1
+          ? `We’ve completed ${numberTaskCompletedYear} task off your To-do list this year.`
+          : `We’ve completed ${numberTaskCompletedYear} tasks off your To-do list this year.`}
       </Text>
       <NavToDoList />
     </View>

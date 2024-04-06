@@ -5,6 +5,10 @@ export interface DateFromFirestore {
   seconds: number;
 }
 
+export const dateFromReduxToDate = (dateRedux: string) => {
+  return new Date(dateRedux);
+};
+
 export const dateFromFirestoreToDateString = (
   dateFirestore: DateFromFirestore,
 ) => {
@@ -17,18 +21,6 @@ export const dateFromFirestoreToDateString = (
 export const taskFromFirestoreTOTaskForRedux = (tasks: TaskFromFirestore[]) => {
   const newTasks: TaskForRedux[] = [];
   tasks.forEach(task => {
-    let dateSchedule: null | string = null;
-    let dateCreation: string;
-    let dateCompleted: null | string = null;
-
-    if (task.dateSchedule != null) {
-      dateSchedule = dateFromFirestoreToDateString(task.dateSchedule);
-    }
-    if (task.dateCompleted != null) {
-      dateCompleted = dateFromFirestoreToDateString(task.dateCompleted);
-    }
-    dateCreation = dateFromFirestoreToDateString(task.dateCreation);
-
     const taskRedux = {
       id: task.id,
       title: task.title,
@@ -36,10 +28,14 @@ export const taskFromFirestoreTOTaskForRedux = (tasks: TaskFromFirestore[]) => {
       photos: task.photos,
       status: task.status,
       schedule: task.schedule,
-      dateSchedule: dateSchedule,
+      dateSchedule: task.dateSchedule
+        ? dateFromFirestoreToDateString(task.dateSchedule)
+        : null,
       userId: task.userId,
-      dateCreation: dateCreation,
-      dateCompleted: dateCompleted,
+      dateCreation: dateFromFirestoreToDateString(task.dateCreation),
+      dateCompleted: task.dateCompleted
+        ? dateFromFirestoreToDateString(task.dateCompleted)
+        : null,
     };
     newTasks.push(taskRedux);
   });

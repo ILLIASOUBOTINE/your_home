@@ -8,6 +8,8 @@ import {
   taskFromFirestoreTOTaskForRedux,
 } from '../utils/convertTask';
 
+import {NameCollection} from '../constans/nameCollection';
+
 export interface TasksState {
   tasksInProgress: TaskForRedux[];
   tasksCompleted: TaskForRedux[];
@@ -37,6 +39,7 @@ const getNumberTasksCompletedYear = (tasks: TaskFromFirestore[]): number => {
   });
   return arrTasksCompletedYear.length;
 };
+
 const getNumberTasksCompletedYearReduxData = (
   tasks: TaskForRedux[],
 ): number => {
@@ -59,14 +62,19 @@ const getTasksSchedule = (tasks: TaskFromFirestore[]): TaskFromFirestore[] => {
 export const fetchTasksByUserId = createAsyncThunk(
   'task/fetchTasksByUserId',
   async (userId: string) => {
+    // const tasksDoc = await firestore()
+    //   .collection(NameCollection.TASKS)
+    //   .where('userId', '==', userId)
+    //   .get();
     const tasksDoc = await firestore()
-      .collection('Tasks')
-      .where('userId', '==', userId)
+      .collection(NameCollection.USERS)
+      .doc(userId)
+      .collection(NameCollection.TASKS)
       .get();
 
     const tasksData = tasksDoc.docs.map(doc => {
       const taskData = doc.data() as TaskFromFirestore;
-
+      taskData.id = doc.id;
       return taskData;
     });
     const tasksDataRedux = taskFromFirestoreTOTaskForRedux(tasksData);
@@ -89,6 +97,22 @@ export const taskSlice = createSlice({
       state.numberTasksCompletedYear = getNumberTasksCompletedYear(
         action.payload,
       );
+    },
+    setTasksAll: (state, action: PayloadAction<TaskForRedux[]>) => {
+      const tasksData = action.payload;
+
+      state.tasksInProgress = tasksData.filter(
+        task => task.status == Status.INPROGRESS,
+      );
+
+      state.tasksCompleted = tasksData.filter(
+        task => task.status == Status.COMPLETED,
+      );
+
+      state.tasksSchedule = tasksData.filter(task => task.schedule);
+
+      state.numberTasksCompletedYear =
+        getNumberTasksCompletedYearReduxData(tasksData);
     },
   },
   extraReducers: builder => {
@@ -124,6 +148,7 @@ export const taskSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {setTasksInProgress, setTasksCompleted} = taskSlice.actions;
+export const {setTasksInProgress, setTasksCompleted, setTasksAll} =
+  taskSlice.actions;
 
 export default taskSlice.reducer;
