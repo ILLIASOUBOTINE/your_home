@@ -15,7 +15,7 @@ import {RootState} from '../../../store/store';
 import Title1 from '../../ui/Title1/Title1';
 
 const TaskCompletedScreen = () => {
-  const taskInprogress = useSelector(
+  const taskCompleted = useSelector(
     (state: RootState) => state.task.tasksCompleted,
   );
 
@@ -23,14 +23,14 @@ const TaskCompletedScreen = () => {
     <View style={[stylesGeneral.containerScreen, styles.container]}>
       <HeaderToDoList />
       {/* {isLoading && <Loading />} */}
-      {taskInprogress.length === 0 && (
+      {taskCompleted.length === 0 && (
         <Title1>You don`t have any tasks yet!</Title1>
       )}
       <FlatList
         style={{flex: 1, marginBottom: scaleSize(20)}}
-        data={taskInprogress}
+        data={taskCompleted}
         renderItem={({item}) => (
-          <TaskBtn task={item} fromScreen={NameScreens.TASKINPROGRESS}>
+          <TaskBtn task={item} fromScreen={NameScreens.TASKCOMPLETED}>
             {item.title}
           </TaskBtn>
         )}

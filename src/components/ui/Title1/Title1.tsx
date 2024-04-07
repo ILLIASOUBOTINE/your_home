@@ -3,7 +3,7 @@ import {styles} from './style';
 import React from 'react';
 
 type TTitle1Props = {
-  children: string;
+  children: any;
   style?: StyleProp<any>;
 };
 

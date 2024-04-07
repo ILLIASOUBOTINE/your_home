@@ -14,11 +14,18 @@ import {TaskForRedux} from '../../../types/Task';
 export type TTaskBtnProps = {
   children: any;
   style?: StyleProp<any>;
+  isScheduleHide?: boolean;
   task: TaskForRedux;
   fromScreen: string;
 };
 
-const TaskBtn = ({children, style, task, fromScreen}: TTaskBtnProps) => {
+const TaskBtn = ({
+  children,
+  style,
+  task,
+  fromScreen,
+  isScheduleHide = false,
+}: TTaskBtnProps) => {
   const navigation =
     useNavigation<BottomTabNavigationProp<TTabBottomNavParamList>>();
 
@@ -30,7 +37,7 @@ const TaskBtn = ({children, style, task, fromScreen}: TTaskBtnProps) => {
     <TouchableOpacity style={[styles.containerBtn, style]} onPress={onPressBtn}>
       <View style={styles.containerText}>
         <Text style={styles.textBtn}>{children}</Text>
-        {task.schedule && (
+        {task.schedule && !isScheduleHide && (
           <View style={styles.containerOptional}>
             <IconSchedule
               fill={Colors.COLOR1}

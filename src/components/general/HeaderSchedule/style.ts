@@ -2,18 +2,22 @@ import {StyleSheet} from 'react-native';
 import {scaleSize} from '../../../utils/scaleSize';
 import {Colors} from '../../../constans/colors';
 import {FontSize} from '../../../constans/fontSize';
-import {Fonts} from '../../../constans/fonts';
 
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
-    // paddingVertical: scaleSize(10),
-    paddingHorizontal: 0,
-  },
-  listHeader: {
-    color: Colors.COLOR3,
-    fontSize: FontSize.H2,
-    fontFamily: Fonts.ROBOTO500,
+    paddingVertical: scaleSize(10),
     marginBottom: scaleSize(20),
+    backgroundColor: Colors.COLOR3,
+  },
+  title: {
+    alignSelf: 'flex-start',
+    marginBottom: scaleSize(5),
+  },
+  text: {
+    marginTop: scaleSize(15),
+    color: Colors.COLOR2,
+    fontSize: FontSize.H1,
+    paddingLeft: scaleSize(6),
   },
 });
