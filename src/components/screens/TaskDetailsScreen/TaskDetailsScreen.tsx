@@ -1,5 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import storage from '@react-native-firebase/storage';
+
+import ImageViewer from 'react-native-image-zoom-viewer';
 import {
   ActivityIndicator,
   Image,
@@ -7,6 +9,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Modal,
 } from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
 import {styles} from './style';
@@ -17,9 +20,9 @@ import {BottomTabNavigationProp} from '@react-navigation/bottom-tabs';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NameScreens} from '../../../types/nameScreens';
-
+import IconCloseOutline from '../../../../assets/icon_app/closeOutline.svg';
 import {Colors} from '../../../constans/colors';
-import {dateFromReduxToDate} from '../../../utils/convertTask';
+import {dateFromReduxToDateWithYear} from '../../../utils/convertTask';
 
 const TaskDetailsScreen = () => {
   const navigation =
@@ -30,6 +33,9 @@ const TaskDetailsScreen = () => {
   const {task, fromScreen} = route.params;
   const [images, setImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [currentImageIndex, setCurrentImageIndex] = useState<
+    number | undefined
+  >();
 
   useEffect(() => {
     if (task.photos.length !== 0) {
@@ -64,8 +70,15 @@ const TaskDetailsScreen = () => {
     navigation.goBack();
   };
 
+  const handleImagePress = (index: number) => {
+    setCurrentImageIndex(index);
+  };
+  const handleCloseModal = () => {
+    setCurrentImageIndex(undefined);
+  };
+
   return (
-    <View style={stylesGeneral.containerScreen}>
+    <View style={[stylesGeneral.containerScreen, styles.containerMain]}>
       <TouchableOpacity style={styles.containerHeader} onPress={onPressBtn}>
         <IconFlashGoBack height={scaleSize(30)} width={scaleSize(30)} />
       </TouchableOpacity>
@@ -74,7 +87,7 @@ const TaskDetailsScreen = () => {
           <Text style={styles.textId}>№ {task.id}</Text>
           <Text1
             title="creation date:"
-            text={dateFromReduxToDate(task.dateCreation).toUTCString()}
+            text={dateFromReduxToDateWithYear(task.dateCreation)}
             isRow={true}
           />
           {task.dateCompleted === null ? (
@@ -82,9 +95,9 @@ const TaskDetailsScreen = () => {
           ) : (
             <Text1
               title="status:"
-              text={`${task.status} (${dateFromReduxToDate(
+              text={`${task.status} (${dateFromReduxToDateWithYear(
                 task.dateCompleted,
-              ).toUTCString()})`}
+              )})`}
               isRow={true}
             />
           )}
@@ -104,15 +117,35 @@ const TaskDetailsScreen = () => {
               <View style={styles.containerImg}>
                 {task.photos.length != 0 &&
                   images.map((url, index) => (
-                    <Image
+                    <TouchableOpacity
                       key={`${url}Image`}
-                      style={styles.img}
-                      source={{uri: url}}
-                    />
+                      onPress={() => handleImagePress(index)}>
+                      <Image
+                        // key={`${url}Image`}
+                        style={styles.img}
+                        source={{uri: url}}
+                      />
+                    </TouchableOpacity>
                   ))}
               </View>
             )}
           </View>
+        )}
+        {currentImageIndex !== undefined && (
+          <Modal visible={true} transparent={true}>
+            <View style={styles.containerModal}>
+              <ImageViewer
+                imageUrls={images.map(url => ({url}))}
+                index={currentImageIndex}
+                onCancel={handleCloseModal}
+              />
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={handleCloseModal}>
+                <IconCloseOutline fill={Colors.COLOR7} />
+              </TouchableOpacity>
+            </View>
+          </Modal>
         )}
       </ScrollView>
     </View>

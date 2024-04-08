@@ -5,6 +5,11 @@ import {FontSize} from '../../../constans/fontSize';
 import {Fonts} from '../../../constans/fonts';
 
 export const styles = StyleSheet.create({
+  containerMain: {
+    // justifyContent: 'flex-start',
+    // paddingVertical: scaleSize(10),
+    paddingHorizontal: 0,
+  },
   container: {
     justifyContent: 'flex-start',
     paddingVertical: scaleSize(20),
@@ -38,8 +43,17 @@ export const styles = StyleSheet.create({
     paddingVertical: scaleSize(10),
   },
   img: {
-    // flexBasis: '45%',
+    borderRadius: scaleSize(12),
     width: scaleSize(125),
     height: scaleSize(125),
+  },
+  closeButton: {
+    position: 'absolute',
+    top: scaleSize(40),
+    right: scaleSize(40),
+  },
+  containerModal: {
+    flex: 1,
+    // backgroundColor: Colors.COLOR1,
   },
 });
