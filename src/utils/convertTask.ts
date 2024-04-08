@@ -9,6 +9,38 @@ export const dateFromReduxToDate = (dateRedux: string) => {
   return new Date(dateRedux);
 };
 
+export const dateFromReduxToTime = (dateRedux: string) => {
+  const date = new Date(dateRedux);
+  let hours = date.getHours();
+  let minutes = date.getMinutes();
+  let ampm = hours >= 12 ? 'pm' : 'am';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  let minutesString = minutes < 10 ? '0' + minutes : minutes;
+  return hours + ':' + minutesString + ampm;
+};
+
+export const dateFromReduxToDateWithoutYear = (dateRedux: string) => {
+  const date = new Date(dateRedux);
+  const options: Intl.DateTimeFormatOptions = {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+  return formattedDate;
+};
+export const dateFromReduxToDateWithYear = (dateRedux: string) => {
+  const date = new Date(dateRedux);
+  const options: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  };
+  const formattedDate = date.toLocaleDateString('en-US', options);
+  return formattedDate;
+};
+
 export const dateFromFirestoreToDateString = (
   dateFirestore: DateFromFirestore,
 ) => {

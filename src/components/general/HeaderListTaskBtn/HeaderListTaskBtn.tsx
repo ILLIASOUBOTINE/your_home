@@ -6,18 +6,24 @@ import IconSettings from '../../../../assets/icon_app/settings.svg';
 import {Colors} from '../../../constans/colors';
 import {scaleSize} from '../../../utils/scaleSize';
 
-import {TaskForRedux} from '../../../types/Task';
+import {
+  dateFromReduxToDateWithoutYear,
+  dateFromReduxToTime,
+} from '../../../utils/convertTask';
 
 export type THeaderListTaskBtnProps = {
   style?: StyleProp<any>;
-  tasks: TaskForRedux[];
+  // tasks: TaskForRedux[];
+  date: string;
 };
 
-const HeaderListTaskBtn = ({tasks, style}: THeaderListTaskBtnProps) => {
+const HeaderListTaskBtn = ({date, style}: THeaderListTaskBtnProps) => {
   return (
     <View style={[styles.containerBtn, style]}>
       <View style={styles.containerText}>
-        <Text style={styles.textBtn}>{tasks[0].dateSchedule}</Text>
+        <Text style={styles.textBtn}>
+          {dateFromReduxToDateWithoutYear(date)}
+        </Text>
 
         <View style={styles.containerOptional}>
           <IconTime
@@ -25,7 +31,7 @@ const HeaderListTaskBtn = ({tasks, style}: THeaderListTaskBtnProps) => {
             width={scaleSize(17)}
             height={scaleSize(17)}
           />
-          <Text style={styles.textOptional}>Schedule</Text>
+          <Text style={styles.textOptional}>{dateFromReduxToTime(date)}</Text>
         </View>
       </View>
       <IconSettings

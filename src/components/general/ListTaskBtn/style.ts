@@ -7,7 +7,11 @@ export const styles = StyleSheet.create({
   },
   taskBtn: {
     marginBottom: 0,
-    // borderTopLeftRadius: 0,
-    // borderTopRightRadius:
+    borderRadius: 0,
+    borderWidth: 0,
+  },
+  styleLastItem: {
+    borderBottomLeftRadius: scaleSize(12),
+    borderBottomRightRadius: scaleSize(12),
   },
 });

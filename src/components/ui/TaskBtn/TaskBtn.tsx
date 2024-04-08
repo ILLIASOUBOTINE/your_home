@@ -14,12 +14,14 @@ import {TaskForRedux} from '../../../types/Task';
 export type TTaskBtnProps = {
   children: any;
   style?: StyleProp<any>;
+  styleLastItem?: StyleProp<any>;
   isScheduleHide?: boolean;
   task: TaskForRedux;
   fromScreen: string;
 };
 
 const TaskBtn = ({
+  styleLastItem,
   children,
   style,
   task,
@@ -34,9 +36,11 @@ const TaskBtn = ({
   };
 
   return (
-    <TouchableOpacity style={[styles.containerBtn, style]} onPress={onPressBtn}>
+    <TouchableOpacity
+      style={[styles.containerBtn, style, styleLastItem]}
+      onPress={onPressBtn}>
       <View style={styles.containerText}>
-        <Text style={styles.textBtn}>{children}</Text>
+        <Text style={[styles.textBtn, style]}>{children}</Text>
         {task.schedule && !isScheduleHide && (
           <View style={styles.containerOptional}>
             <IconSchedule

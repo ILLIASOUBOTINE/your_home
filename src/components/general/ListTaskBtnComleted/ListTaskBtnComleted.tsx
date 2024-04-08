@@ -5,15 +5,18 @@ import React from 'react';
 import {TaskForRedux} from '../../../types/Task';
 import TaskBtn from '../../ui/TaskBtn/TaskBtn';
 import {NameScreens} from '../../../types/nameScreens';
-import {dateFromReduxToDate} from '../../../utils/convertTask';
+import {
+  dateFromReduxToDate,
+  dateFromReduxToDateWithYear,
+} from '../../../utils/convertTask';
 import HeaderListTaskBtn from '../HeaderListTaskBtn/HeaderListTaskBtn';
 
-export type TListTaskBtnProps = {
+export type TListTaskBtnComletedProps = {
   style?: StyleProp<any>;
   tasks: TaskForRedux[];
 };
 
-const ListTaskBtn = ({style, tasks}: TListTaskBtnProps) => {
+const ListTaskBtnComleted = ({style, tasks}: TListTaskBtnComletedProps) => {
   return (
     <>
       <FlatList
@@ -21,21 +24,22 @@ const ListTaskBtn = ({style, tasks}: TListTaskBtnProps) => {
         data={tasks}
         renderItem={({item, index}) => (
           <TaskBtn
-            styleLastItem={index === tasks.length - 1 && styles.styleLastItem}
             style={styles.taskBtn}
             task={item}
-            fromScreen={NameScreens.SCHEDULE}
+            fromScreen={NameScreens.TASKCOMPLETED}
             isScheduleHide={true}>
             {item.title}
           </TaskBtn>
         )}
         keyExtractor={(item, index) => item.id}
         ListHeaderComponent={
-          <HeaderListTaskBtn date={tasks[0].dateSchedule!} />
+          <Text style={styles.title}>
+            {dateFromReduxToDateWithYear(tasks[0].dateCompleted!)}{' '}
+          </Text>
         }
       />
     </>
   );
 };
 
-export default ListTaskBtn;
+export default ListTaskBtnComleted;

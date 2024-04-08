@@ -24,7 +24,7 @@ const ScheduleScreen = () => {
 
   useEffect(() => {
     setListSchedule(sortArrSchedule(tasksSchedule));
-    console.log('listSchedule', listSchedule);
+    // console.log('listSchedule', listSchedule);
   }, [tasksSchedule]);
 
   return (
@@ -44,7 +44,11 @@ const ScheduleScreen = () => {
         renderItem={({item}) => <ListTaskBtn tasks={item} />}
         keyExtractor={(item, index) => item[0].dateSchedule! + index}
         ListHeaderComponent={
-          <Text style={styles.listHeader}>Upcoming Schedule</Text>
+          <>
+            {listSchedule.length !== 0 ? (
+              <Text style={styles.listHeader}>Upcoming Schedule</Text>
+            ) : null}
+          </>
         }
       />
     </View>
