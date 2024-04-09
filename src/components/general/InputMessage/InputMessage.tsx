@@ -19,13 +19,15 @@ import {NameCollection} from '../../../constans/nameCollection';
 type TInputMessageProps = {
   style?: StyleProp<any>;
   userId: string;
+  scrollToEnd: () => void;
 };
 
-const InputMessage = ({style, userId}: TInputMessageProps) => {
+const InputMessage = ({style, userId, scrollToEnd}: TInputMessageProps) => {
   const [text, setText] = useState('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const createNewMessage = (text: string, idUser: string): Message => {
-    return {text, date: new Date(), idUser, idUserAnsswer: null};
+
+  const createNewMessage = (text: string): Message => {
+    return {text, date: new Date(), isAnswer: false};
   };
 
   const uploadMessageInFirestore = async (newMessage: Message) => {
@@ -45,9 +47,10 @@ const InputMessage = ({style, userId}: TInputMessageProps) => {
     if (text.trim().length !== 0) {
       setIsLoading(true);
       try {
-        const newMessage = createNewMessage(text, userId);
+        const newMessage = createNewMessage(text);
         await uploadMessageInFirestore(newMessage);
         setText('');
+        scrollToEnd();
       } catch (error) {
         Alert.alert('Add Message', 'Message not added!');
       } finally {

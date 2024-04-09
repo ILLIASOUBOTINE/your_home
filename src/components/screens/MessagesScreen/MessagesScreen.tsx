@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useRef} from 'react';
 import {FlatList, View} from 'react-native';
 import {styles} from './style';
 
@@ -12,6 +12,16 @@ import MessagesListener from '../../functional/MessagesListener';
 const MessagesScreen = () => {
   const user = useSelector((state: RootState) => state.user);
   const messages = useSelector((state: RootState) => state.message.messages);
+  const flatListRef = useRef<any>(null);
+
+  const scrollToEnd = () => {
+    if (flatListRef.current) {
+      flatListRef.current.scrollToIndex({
+        index: messages.length - 1,
+        animated: true,
+      });
+    }
+  };
 
   return (
     <View style={styles.containerMain}>
@@ -24,6 +34,7 @@ const MessagesScreen = () => {
           <Title1>You don`t have any chat messages yet!</Title1>
         )}
         <FlatList
+          ref={flatListRef}
           data={messages}
           renderItem={({item}) => (
             <MessageItem message={item} userName={user.firstName} />
@@ -32,7 +43,7 @@ const MessagesScreen = () => {
         />
       </View>
       <View style={styles.containerMessage}>
-        <InputMessage userId={user.id!} />
+        <InputMessage userId={user.id!} scrollToEnd={scrollToEnd} />
       </View>
     </View>
   );

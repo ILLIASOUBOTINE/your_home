@@ -12,16 +12,32 @@ type TMessageItemProps = {
 
 const MessageItem = ({style, message, userName}: TMessageItemProps) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.containerAvatar}>
-        <Text style={styles.avatar}>{userName[0].toUpperCase()}</Text>
-      </View>
-      <View style={styles.containerText}>
-        <Text style={styles.name}>{userName}</Text>
-        <Text style={styles.text}>{message.text}</Text>
-        <Text style={styles.time}>{dateFromReduxToTime(message.date)}</Text>
-      </View>
-    </View>
+    <>
+      {message.isAnswer ? (
+        <View style={styles.container}>
+          <View style={styles.containerAvatar}>
+            <Text style={styles.avatar}>A</Text>
+          </View>
+          <View style={styles.containerText}>
+            <Text style={styles.name}>Admin</Text>
+            <Text style={styles.text}>{message.text}</Text>
+            <Text style={styles.time}>{dateFromReduxToTime(message.date)}</Text>
+          </View>
+        </View>
+      ) : (
+        <View style={styles.container}>
+          <View style={styles.containerText}>
+            <Text style={[styles.name, styles.textReverse]}>You</Text>
+            <Text style={[styles.text, styles.textReverse]}>
+              {message.text}
+            </Text>
+            <Text style={[styles.time, styles.textReverse]}>
+              {dateFromReduxToTime(message.date)}
+            </Text>
+          </View>
+        </View>
+      )}
+    </>
   );
 };
 

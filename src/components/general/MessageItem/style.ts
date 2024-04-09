@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     gap: scaleSize(5),
     flex: 1,
   },
+
   name: {
     color: Colors.COLOR4,
     fontSize: FontSize.H3,
@@ -41,5 +42,8 @@ export const styles = StyleSheet.create({
     color: Colors.COLOR1,
     fontSize: FontSize.H5,
     fontFamily: Fonts.INTER500,
+  },
+  textReverse: {
+    textAlign: 'right',
   },
 });

@@ -12,8 +12,8 @@ export const messageFromFirestoreTOMessageForRedux = (
     newMessages.push({
       id: message.id,
       text: message.text,
-      idUser: message.idUser,
-      idUserAnsswer: message.idUserAnsswer,
+      isAnswer: message.isAnswer,
+
       date: dateFromFirestoreToDateString(message.date),
     });
   });

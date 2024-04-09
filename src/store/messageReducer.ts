@@ -4,7 +4,10 @@ import firestore from '@react-native-firebase/firestore';
 
 import {NameCollection} from '../constans/nameCollection';
 import {MessageForRedux, MessageFromFirestore} from '../types/Message';
-import {messageFromFirestoreTOMessageForRedux} from '../utils/utilsMessage';
+import {
+  messageFromFirestoreTOMessageForRedux,
+  sortArrMessages,
+} from '../utils/utilsMessage';
 
 export interface MessagesState {
   messages: MessageForRedux[];
@@ -42,7 +45,7 @@ export const messageSlice = createSlice({
   initialState,
   reducers: {
     setMessages: (state, action: PayloadAction<MessageForRedux[]>) => {
-      state.messages = action.payload;
+      state.messages = sortArrMessages(action.payload);
     },
   },
   extraReducers: builder => {
@@ -55,7 +58,7 @@ export const messageSlice = createSlice({
         console.log('messageREJECTED');
       })
       .addCase(fetchMessagesByUserId.fulfilled, (state, action) => {
-        state.messages = action.payload;
+        state.messages = sortArrMessages(action.payload);
         console.log('messageREQUEST FINISHED FULLFILLED');
       });
   },

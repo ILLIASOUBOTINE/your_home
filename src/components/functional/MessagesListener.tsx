@@ -4,7 +4,10 @@ import {useDispatch} from 'react-redux';
 
 import {NameCollection} from '../../constans/nameCollection';
 import {MessageFromFirestore} from '../../types/Message';
-import {messageFromFirestoreTOMessageForRedux} from '../../utils/utilsMessage';
+import {
+  messageFromFirestoreTOMessageForRedux,
+  sortArrMessages,
+} from '../../utils/utilsMessage';
 import {setMessages} from '../../store/messageReducer';
 
 const MessagesListener = ({userId}: {userId: string}) => {
@@ -23,6 +26,7 @@ const MessagesListener = ({userId}: {userId: string}) => {
         });
         const messagesDataRedux =
           messageFromFirestoreTOMessageForRedux(messagesData);
+
         dispatch(setMessages(messagesDataRedux));
       });
 
