@@ -1,27 +1,29 @@
 import {useEffect} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import {useDispatch} from 'react-redux';
-import {setTasksAll} from '../../store/taskReducer';
-import {NameCollection} from '../../constans/nameCollection';
-import {TaskFromFirestore} from '../../types/Task';
-import {taskFromFirestoreTOTaskForRedux} from '../../utils/convertTask';
 
-const TaskListener = ({userId}: {userId: string}) => {
+import {NameCollection} from '../../constans/nameCollection';
+import {MessageFromFirestore} from '../../types/Message';
+import {messageFromFirestoreTOMessageForRedux} from '../../utils/utilsMessage';
+import {setMessages} from '../../store/messageReducer';
+
+const MessagesListener = ({userId}: {userId: string}) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = firestore()
       .collection(NameCollection.USERS)
       .doc(userId)
-      .collection(NameCollection.TASKS)
+      .collection(NameCollection.MESSAGES)
       .onSnapshot(snapshot => {
-        const tasksData = snapshot.docs.map(doc => {
-          const taskData = doc.data() as TaskFromFirestore;
-          taskData.id = doc.id;
-          return taskData;
+        const messagesData = snapshot.docs.map(doc => {
+          const messageData = doc.data() as MessageFromFirestore;
+          messageData.id = doc.id;
+          return messageData;
         });
-        const tasksDataRedux = taskFromFirestoreTOTaskForRedux(tasksData);
-        dispatch(setTasksAll(tasksDataRedux)); // Обновляем задачи в Redux store
+        const messagesDataRedux =
+          messageFromFirestoreTOMessageForRedux(messagesData);
+        dispatch(setMessages(messagesDataRedux));
       });
 
     return () => unsubscribe(); // Отписываемся от подписки при размонтировании компонента
@@ -30,4 +32,4 @@ const TaskListener = ({userId}: {userId: string}) => {
   return null; // Поскольку компонент используется только для управления подпиской, он не рендерит ничего
 };
 
-export default TaskListener;
+export default MessagesListener;

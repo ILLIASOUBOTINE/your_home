@@ -17,8 +17,9 @@ export const styles = StyleSheet.create({
   },
   containerScroll: {
     flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: 'red',
+    justifyContent: 'flex-end',
+    backgroundColor: Colors.COLOR2,
+    padding: scaleSize(10),
   },
   containerMessage: {
     justifyContent: 'flex-start',

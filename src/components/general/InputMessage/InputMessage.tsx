@@ -1,25 +1,64 @@
-import {StyleProp, Text, TextInput, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Alert,
+  StyleProp,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {styles} from './style';
 import React, {useState} from 'react';
+import firestore from '@react-native-firebase/firestore';
 import {Colors} from '../../../constans/colors';
 import IconSendMessage from '../../../../assets/icon_app/sendMessage.svg';
 import {scaleSize} from '../../../utils/scaleSize';
+import {Message} from '../../../types/Message';
+import {NameCollection} from '../../../constans/nameCollection';
 
 type TInputMessageProps = {
   style?: StyleProp<any>;
+  userId: string;
 };
 
-const InputMessage = ({style}: TInputMessageProps) => {
+const InputMessage = ({style, userId}: TInputMessageProps) => {
   const [text, setText] = useState('');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const createNewMessage = (text: string, idUser: string): Message => {
+    return {text, date: new Date(), idUser, idUserAnsswer: null};
+  };
 
-  const sendMessage = (text: string) => {
+  const uploadMessageInFirestore = async (newMessage: Message) => {
+    try {
+      const uploadedMessageInFirestore = await firestore()
+        .collection(NameCollection.USERS)
+        .doc(userId)
+        .collection(NameCollection.MESSAGES)
+        .add(newMessage);
+      return uploadedMessageInFirestore;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const sendMessage = async (text: string) => {
     if (text.trim().length !== 0) {
-      setText('');
+      setIsLoading(true);
+      try {
+        const newMessage = createNewMessage(text, userId);
+        await uploadMessageInFirestore(newMessage);
+        setText('');
+      } catch (error) {
+        Alert.alert('Add Message', 'Message not added!');
+      } finally {
+        setIsLoading(false);
+      }
     }
   };
 
   return (
     <View style={styles.container}>
+      {isLoading && <ActivityIndicator />}
       <TextInput
         style={styles.input}
         value={text}
