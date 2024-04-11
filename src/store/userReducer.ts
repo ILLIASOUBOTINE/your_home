@@ -1,4 +1,4 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {PayloadAction, createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import firestore from '@react-native-firebase/firestore';
 import User from '../types/User';
@@ -39,17 +39,16 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    // setUserIslogin: (state, action: PayloadAction<boolean>) => {
-    //   state.isLogin = action.payload;
-    // },
-    // setUserId: state => {
-    //   auth().onAuthStateChanged(user => {
-    //     if (user) {
-    //       console.log('ID', user.uid);
-    //       state.id = user.uid;
-    //     }
-    //   });
-    // },
+    setIslogin: (state, action: PayloadAction<boolean>) => {
+      if (!action.payload) {
+        // Reset other user properties when logging out
+        return initialState;
+      }
+      state.isLogin = action.payload;
+    },
+    setUserId: (state, action: PayloadAction<string>) => {
+      state.id = action.payload;
+    },
   },
   extraReducers: builder => {
     builder
@@ -68,13 +67,13 @@ export const userSlice = createSlice({
         state.phoneNumber = userData.phoneNumber;
         state.address = userData.address;
         state.email = userData.email;
-        state.isLogin = true;
+        // state.isLogin = true;
         console.log('UserREQUEST FINISHED FULLFILLED');
       });
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {} = userSlice.actions;
+export const {setIslogin, setUserId} = userSlice.actions;
 
 export default userSlice.reducer;

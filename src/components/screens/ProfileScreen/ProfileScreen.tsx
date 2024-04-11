@@ -1,22 +1,30 @@
 import {ScrollView, Text} from 'react-native';
 import {styles} from './style';
 import React from 'react';
+import auth from '@react-native-firebase/auth';
 import Btn1 from '../../ui/Btn1/Btn1';
-import {SetDataString} from '../../../storage/storage';
-import {StorageKeys} from '../../../storage/storage-keys';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-import {TAppStackParamList} from '../../../navigation/AppNav';
-import {NameNavigators} from '../../../types/nameNavigators';
+
 import {stylesGeneral} from '../../stylesGeneral';
 import Title1 from '../../ui/Title1/Title1';
 import FormProfile from '../../general/FormProfile/FormProfile';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../../store/store';
+import {setIslogin} from '../../../store/userReducer';
 
 const ProfileScreen = () => {
-  const navigation = useNavigation<StackNavigationProp<TAppStackParamList>>();
   const firstName = useSelector((state: RootState) => state.user.firstName);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const Logout = () => {
+    auth()
+      .signOut()
+      .then(() => {
+        dispatch(setIslogin(false));
+        console.log('User signed out!');
+      })
+      .catch(() => {});
+  };
+
   return (
     <ScrollView
       showsVerticalScrollIndicator={false}
@@ -28,15 +36,7 @@ const ProfileScreen = () => {
 
       <FormProfile />
 
-      <Btn1
-        onPressBtn={async () => {
-          await SetDataString(StorageKeys.IS_LOGIN, false);
-          navigation.navigate(
-            NameNavigators.LOGINANDREGISTRATIONSTACKNAVIGATOR,
-          );
-        }}>
-        Log_out
-      </Btn1>
+      <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>
     </ScrollView>
   );
 };

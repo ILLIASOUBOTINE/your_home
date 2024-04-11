@@ -53,17 +53,29 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
   const handlerRegitration = () => {
     setIsLoading(true);
     if (
-      !email ||
-      !password ||
-      !firstName ||
-      !lastName ||
-      !address ||
-      !phoneNumber
+      email.trim().length === 0 ||
+      password.trim().length === 0 ||
+      firstName.trim().length === 0 ||
+      lastName.trim().length === 0 ||
+      address.trim().length === 0 ||
+      phoneNumber.trim().length === 0
     ) {
       Alert.alert('Registration', ' all fields must be filled in');
       setIsLoading(false);
       return;
+    } else if (password.trim().length < 6) {
+      Alert.alert('Registration', ' Minimum password lenght 6 characters!');
+      setIsLoading(false);
+      return;
+    } else if (password !== conformPassword) {
+      Alert.alert(
+        'Registration',
+        ' The confirmed password does not match password!',
+      );
+      setIsLoading(false);
+      return;
     }
+
     auth()
       .createUserWithEmailAndPassword(email, password)
       .then(userCredential => {

@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import {FlatList, View} from 'react-native';
 import {styles} from './style';
 
@@ -14,14 +14,17 @@ const MessagesScreen = () => {
   const messages = useSelector((state: RootState) => state.message.messages);
   const flatListRef = useRef<any>(null);
 
-  const scrollToEnd = () => {
+  const scrollToEnd = useCallback(() => {
     if (flatListRef.current) {
-      flatListRef.current.scrollToIndex({
-        index: messages.length - 1,
-        animated: true,
-      });
+      flatListRef.current.scrollToEnd({animated: true});
     }
-  };
+  }, [flatListRef]);
+
+  useEffect(() => {
+    if (messages.length !== 0) {
+      scrollToEnd();
+    }
+  }, [messages, scrollToEnd]);
 
   return (
     <View style={styles.containerMain}>
@@ -34,6 +37,7 @@ const MessagesScreen = () => {
           <Title1>You don`t have any chat messages yet!</Title1>
         )}
         <FlatList
+          onContentSizeChange={scrollToEnd}
           showsVerticalScrollIndicator={false}
           ref={flatListRef}
           data={messages}

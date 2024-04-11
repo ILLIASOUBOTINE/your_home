@@ -13,7 +13,7 @@ import {NameNavigators} from '../../../types/nameNavigators';
 import {stylesGeneral} from '../../stylesGeneral';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../../store/store';
-import {fetchUserById} from '../../../store/userReducer';
+import {fetchUserById, setUserId} from '../../../store/userReducer';
 import {fetchTasksByUserId} from '../../../store/taskReducer';
 import {fetchMessagesByUserId} from '../../../store/messageReducer';
 
@@ -33,7 +33,7 @@ const FormLogin = ({setIsLoading}: TFormLoginParams) => {
   const handlerLogin = () => {
     setIsLoading(true);
 
-    if (!email || !password) {
+    if (email.trim().length === 0 || password.trim().length === 0) {
       Alert.alert('Login', 'Email or password cannot be empty!');
       setIsLoading(false);
       return;
@@ -42,17 +42,20 @@ const FormLogin = ({setIsLoading}: TFormLoginParams) => {
     auth()
       .signInWithEmailAndPassword(email, password)
       .then(async () => {
-        await SetDataString(StorageKeys.IS_LOGIN, true);
+        // await SetDataString(StorageKeys.IS_LOGIN, true);
         setEmail('');
         setPassword('');
         console.log('User signed in successfully!');
         const user = auth().currentUser;
         if (user) {
+          // dispatch(setUserId(user.uid));
+          console.log('Login111');
+
           await dispatch(fetchUserById(user.uid));
           await dispatch(fetchTasksByUserId(user.uid));
           await dispatch(fetchMessagesByUserId(user.uid));
         }
-        navigation.navigate(NameNavigators.TABBOTTOMNAVIGATOR);
+        // navigation.navigate(NameNavigators.TABBOTTOMNAVIGATOR);
       })
       .catch(error => {
         if (error.code === 'auth/user-not-found') {
