@@ -23,7 +23,7 @@ const FormProfile = () => {
   const [firstName, setFirstName] = useState(userData.firstName);
   const [lastName, setLastName] = useState(userData.lastName);
   const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
-  const [address, setAdress] = useState(userData.address);
+  const [address, setAddress] = useState(userData.address);
   // const [conformPassword, setConformPassword] = useState('');
 
   return (
@@ -51,7 +51,7 @@ const FormProfile = () => {
         placeholder="Address"
         value={address}
         multiline={true}
-        onChangeText={setAdress}
+        onChangeText={setAddress}
       />
       <TextInput
         style={stylesGeneral.input1}

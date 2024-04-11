@@ -35,6 +35,7 @@ const ScheduleScreen = () => {
         <Title1>You don`t have anything planned for the near future!</Title1>
       )}
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           marginBottom: scaleSize(20),

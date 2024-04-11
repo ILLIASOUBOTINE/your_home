@@ -81,6 +81,7 @@ const TaskInProgressScreen = () => {
         <Title1>You don`t have any tasks yet!</Title1>
       )}
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={{flex: 1, marginBottom: scaleSize(20)}}
         data={taskInprogress}
         renderItem={({item}) => (

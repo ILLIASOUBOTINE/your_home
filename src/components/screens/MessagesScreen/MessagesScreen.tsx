@@ -34,6 +34,7 @@ const MessagesScreen = () => {
           <Title1>You don`t have any chat messages yet!</Title1>
         )}
         <FlatList
+          showsVerticalScrollIndicator={false}
           ref={flatListRef}
           data={messages}
           renderItem={({item}) => (

@@ -82,7 +82,9 @@ const TaskDetailsScreen = () => {
       <TouchableOpacity style={styles.containerHeader} onPress={onPressBtn}>
         <IconFlashGoBack height={scaleSize(30)} width={scaleSize(30)} />
       </TouchableOpacity>
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.container}>
         <View style={styles.textBlock}>
           <Text style={styles.textId}>№ {task.id}</Text>
           <Text1

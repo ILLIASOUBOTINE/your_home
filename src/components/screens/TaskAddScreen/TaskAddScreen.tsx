@@ -12,6 +12,7 @@ const TaskAddScreen = () => {
 
   return (
     <ScrollView
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={[stylesGeneral.containerScreen, styles.container]}>
       {isLoading && <Loading />}
       <HeaderToDoList />

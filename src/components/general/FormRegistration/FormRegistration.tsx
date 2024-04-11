@@ -27,7 +27,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [adress, setAdress] = useState('');
+  const [address, setAddress] = useState('');
   const [conformPassword, setConformPassword] = useState('');
 
   const addUserToBD = (uid: string) => {
@@ -37,7 +37,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
       .set({
         firstName: firstName,
         lastName: lastName,
-        adress: adress,
+        address: address,
         phoneNumber: phoneNumber,
         email: email,
       })
@@ -57,7 +57,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
       !password ||
       !firstName ||
       !lastName ||
-      !adress ||
+      !address ||
       !phoneNumber
     ) {
       Alert.alert('Registration', ' all fields must be filled in');
@@ -116,9 +116,9 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
         style={[stylesGeneral.input1, stylesGeneral.input2]}
         placeholder="Adress"
         placeholderTextColor={Colors.COLOR1}
-        value={adress}
+        value={address}
         multiline={true}
-        onChangeText={setAdress}
+        onChangeText={setAddress}
       />
       <TextInput
         style={stylesGeneral.input1}

@@ -18,7 +18,9 @@ const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <ScrollView contentContainerStyle={stylesGeneral.containerScreen}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={stylesGeneral.containerScreen}>
       {isLoading && <Loading />}
       <Title1>Log_In</Title1>
       <FormLogin setIsLoading={setIsLoading} />

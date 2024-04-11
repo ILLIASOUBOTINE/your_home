@@ -18,7 +18,9 @@ const RegistrationScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <ScrollView contentContainerStyle={stylesGeneral.containerScreen}>
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      contentContainerStyle={stylesGeneral.containerScreen}>
       {isLoading && <Loading />}
       <Title1>Registration</Title1>
       <FormRegistration setIsLoading={setIsLoading} />

@@ -19,6 +19,7 @@ const ProfileScreen = () => {
   const firstName = useSelector((state: RootState) => state.user.firstName);
   return (
     <ScrollView
+      showsVerticalScrollIndicator={false}
       contentContainerStyle={[
         stylesGeneral.containerScreen,
         styles.containerScroll,

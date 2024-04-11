@@ -26,7 +26,7 @@ const TaskCompletedScreen = () => {
 
   useEffect(() => {
     setListCompleted(sortArrCompleted(taskCompleted));
-    console.log('listCompleted', listCompleted);
+    // console.log('listCompleted', listCompleted);
   }, [taskCompleted]);
 
   return (
@@ -47,6 +47,7 @@ const TaskCompletedScreen = () => {
         keyExtractor={(item, index) => item.id}
       /> */}
       <FlatList
+        showsVerticalScrollIndicator={false}
         style={{
           flex: 1,
           marginBottom: scaleSize(20),

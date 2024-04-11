@@ -41,7 +41,8 @@ const TabBottonNav = () => {
       {id && <TaskListener userId={id} />}
       <TabNav.Navigator
         backBehavior="history"
-        screenOptions={() => ({
+        screenOptions={{
+          tabBarHideOnKeyboard: true,
           headerShown: false,
           tabBarActiveTintColor: Colors.COLOR3,
           tabBarInactiveTintColor: Colors.COLOR1,
@@ -53,7 +54,7 @@ const TabBottonNav = () => {
             fontSize: FontSize.H5,
             fontFamily: Fonts.INTER500,
           },
-        })}>
+        }}>
         <TabNav.Screen
           name={NameScreens.SCHEDULE}
           component={ScheduleScreen}
@@ -68,6 +69,7 @@ const TabBottonNav = () => {
           component={ToDoListStackNav}
           options={{
             title: 'To-do List',
+
             tabBarIcon: ({focused}) => (
               <IconToDoList fill={focused ? Colors.COLOR3 : Colors.COLOR1} />
             ),
