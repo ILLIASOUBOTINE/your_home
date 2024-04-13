@@ -41,13 +41,26 @@ export const userSlice = createSlice({
   reducers: {
     setIslogin: (state, action: PayloadAction<boolean>) => {
       if (!action.payload) {
-        // Reset other user properties when logging out
         return initialState;
       }
       state.isLogin = action.payload;
     },
     setUserId: (state, action: PayloadAction<string>) => {
       state.id = action.payload;
+    },
+    setUpdateUserFields: (
+      state,
+      action: PayloadAction<{
+        firstName: string;
+        lastName: string;
+        phoneNumber: string;
+        address: string;
+      }>,
+    ) => {
+      state.firstName = action.payload.firstName;
+      state.lastName = action.payload.lastName;
+      state.phoneNumber = action.payload.phoneNumber;
+      state.address = action.payload.address;
     },
   },
   extraReducers: builder => {
@@ -74,6 +87,6 @@ export const userSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {setIslogin, setUserId} = userSlice.actions;
+export const {setIslogin, setUserId, setUpdateUserFields} = userSlice.actions;
 
 export default userSlice.reducer;

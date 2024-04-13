@@ -1,6 +1,6 @@
-import {ScrollView, Text} from 'react-native';
+import {ActivityIndicator, Modal, ScrollView, Text} from 'react-native';
 import {styles} from './style';
-import React from 'react';
+import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
 import Btn1 from '../../ui/Btn1/Btn1';
 
@@ -10,10 +10,14 @@ import FormProfile from '../../general/FormProfile/FormProfile';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../../store/store';
 import {setIslogin} from '../../../store/userReducer';
+import SettingsProfile from '../../general/SettingsProfile/SettingsProfile';
+import {Colors} from '../../../constans/colors';
 
 const ProfileScreen = () => {
   const firstName = useSelector((state: RootState) => state.user.firstName);
   const dispatch = useDispatch<AppDispatch>();
+  const [isEdite, setIsEdite] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const Logout = () => {
     auth()
@@ -32,11 +36,23 @@ const ProfileScreen = () => {
         stylesGeneral.containerScreen,
         styles.containerScroll,
       ]}>
-      <Title1>{firstName}</Title1>
+      {!isEdite && <Title1>{firstName}</Title1>}
 
-      <FormProfile />
+      {isEdite ? (
+        <FormProfile setIsEdite={setIsEdite} setIsLoading={setIsLoading} />
+      ) : (
+        <SettingsProfile setIsEdite={setIsEdite} />
+      )}
 
-      <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>
+      {!isEdite && <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>}
+
+      {/* <Modal transparent={true} visible={isLoading}>
+        <ActivityIndicator
+          style={styles.madal}
+          size={'large'}
+          color={Colors.COLOR4}
+        />
+      </Modal> */}
     </ScrollView>
   );
 };

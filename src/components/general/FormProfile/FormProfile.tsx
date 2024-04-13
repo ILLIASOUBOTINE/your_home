@@ -1,30 +1,72 @@
 import React, {useState} from 'react';
-import {TextInput, View} from 'react-native';
-
+import {Alert, TextInput, View} from 'react-native';
+import firestore from '@react-native-firebase/firestore';
 import {styles} from './style';
 import Btn1 from '../../ui/Btn1/Btn1';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {NameScreens} from '../../../types/nameScreens';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {stylesGeneral} from '../../stylesGeneral';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../store/store';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppDispatch, RootState} from '../../../store/store';
+import {NameCollection} from '../../../constans/nameCollection';
+import {setUpdateUserFields} from '../../../store/userReducer';
 
-const FormProfile = () => {
-  const navigation =
-    useNavigation<StackNavigationProp<TTabBottomNavParamList>>();
+type TFormProfileParams = {
+  setIsEdite: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const FormProfile = ({setIsEdite, setIsLoading}: TFormProfileParams) => {
+  const dispatch = useDispatch<AppDispatch>();
   const userData = useSelector((state: RootState) => state.user);
-
-  const [email, setEmail] = useState(userData.email);
-  // const [password, setPassword] = useState('');
   const [firstName, setFirstName] = useState(userData.firstName);
   const [lastName, setLastName] = useState(userData.lastName);
   const [phoneNumber, setPhoneNumber] = useState(userData.phoneNumber);
   const [address, setAddress] = useState(userData.address);
-  // const [conformPassword, setConformPassword] = useState('');
+
+  const updateUser = () => {
+    setIsLoading(true);
+    if (
+      firstName.trim().length === 0 ||
+      lastName.trim().length === 0 ||
+      address.trim().length === 0 ||
+      phoneNumber.trim().length === 0
+    ) {
+      setIsLoading(false);
+      Alert.alert('Update', 'All fields must be filled in');
+      return;
+    }
+
+    firestore()
+      .collection(NameCollection.USERS)
+      .doc(userData.id!)
+      .update({
+        firstName,
+        lastName,
+        address,
+        phoneNumber,
+      })
+      .then(() => {
+        console.log('User updated!');
+        dispatch(
+          setUpdateUserFields({firstName, lastName, phoneNumber, address}),
+        );
+
+        setIsEdite(false);
+        setIsLoading(false);
+      })
+      .catch(error => {
+        setIsLoading(false);
+        Alert.alert('Update', 'User data has not been updated!');
+      });
+  };
+
+  const cancelUpdate = () => {
+    setIsEdite(false);
+  };
 
   return (
     <View style={stylesGeneral.containerForm}>
@@ -53,30 +95,9 @@ const FormProfile = () => {
         multiline={true}
         onChangeText={setAddress}
       />
-      <TextInput
-        style={stylesGeneral.input1}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-      />
-      {/* <TextInput
-        style={stylesGeneral.input1}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-      />
-      <TextInput
-        style={stylesGeneral.input1}
-        placeholder="Conform Password"
-        value={conformPassword}
-        onChangeText={setConformPassword}
-      /> */}
-      <Btn1
-        onPressBtn={() => {
-          navigation.navigate(NameScreens.PROFILE);
-        }}>
-        Apply
-      </Btn1>
+
+      <Btn1 onPressBtn={updateUser}>Apply</Btn1>
+      <Btn1 onPressBtn={cancelUpdate}>Cancel</Btn1>
     </View>
   );
 };
