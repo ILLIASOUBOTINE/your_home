@@ -1,7 +1,9 @@
 import {StyleSheet} from 'react-native';
 
 export const styles = StyleSheet.create({
-  containerScroll: {
-    justifyContent: 'space-around',
+  modal: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

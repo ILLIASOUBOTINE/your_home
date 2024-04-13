@@ -12,8 +12,18 @@ import {AppDispatch, RootState} from '../../../store/store';
 import {setIslogin} from '../../../store/userReducer';
 import SettingsProfile from '../../general/SettingsProfile/SettingsProfile';
 import {Colors} from '../../../constans/colors';
+import {RemoveValue, SetDataString} from '../../../storage/storage';
+import {StorageKeys} from '../../../storage/storage-keys';
+import LoadingModal from '../../ui/LoadingModal/LoadingModal';
+import {NameNavigators} from '../../../types/nameNavigators';
+import {useNavigation} from '@react-navigation/native';
+import {TLoginAndRegistrationNavParamList} from '../../../navigation/LoginAndRegistrationStackNav';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {NameScreens} from '../../../types/nameScreens';
 
 const ProfileScreen = () => {
+  const navigation =
+    useNavigation<StackNavigationProp<TLoginAndRegistrationNavParamList>>();
   const firstName = useSelector((state: RootState) => state.user.firstName);
   const dispatch = useDispatch<AppDispatch>();
   const [isEdite, setIsEdite] = useState<boolean>(false);
@@ -22,9 +32,12 @@ const ProfileScreen = () => {
   const Logout = () => {
     auth()
       .signOut()
-      .then(() => {
+      .then(async () => {
         dispatch(setIslogin(false));
+        await SetDataString(StorageKeys.IS_LOGIN, false);
+        await RemoveValue(StorageKeys.UID_USER);
         console.log('User signed out!');
+        navigation.navigate(NameScreens.LOGIN);
       })
       .catch(() => {});
   };
@@ -46,13 +59,7 @@ const ProfileScreen = () => {
 
       {!isEdite && <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>}
 
-      {/* <Modal transparent={true} visible={isLoading}>
-        <ActivityIndicator
-          style={styles.madal}
-          size={'large'}
-          color={Colors.COLOR4}
-        />
-      </Modal> */}
+      <LoadingModal isLoading={isLoading} />
     </ScrollView>
   );
 };

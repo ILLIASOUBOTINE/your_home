@@ -6,13 +6,12 @@ export const SetDataString = async (
   value: string | boolean,
 ) => {
   try {
-    let newValue = '';
     if (typeof value === 'boolean') {
-      newValue = value === true ? 'true' : 'false';
+      value = value === true ? 'true' : 'false';
     }
 
-    await AsyncStorage.setItem(key, newValue);
-    console.log('StoreIsLogin', newValue);
+    await AsyncStorage.setItem(key, value);
+    // console.log('StoreIsLogin', value);
   } catch (e) {
     throw e;
   }
