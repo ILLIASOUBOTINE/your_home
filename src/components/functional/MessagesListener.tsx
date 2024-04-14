@@ -4,10 +4,7 @@ import {useDispatch} from 'react-redux';
 
 import {NameCollection} from '../../constans/nameCollection';
 import {MessageFromFirestore} from '../../types/Message';
-import {
-  messageFromFirestoreTOMessageForRedux,
-  sortArrMessages,
-} from '../../utils/utilsMessage';
+import {messageFromFirestoreTOMessageForRedux} from '../../utils/utilsMessage';
 import {setMessages} from '../../store/messageReducer';
 
 const MessagesListener = ({userId}: {userId: string}) => {
@@ -30,10 +27,10 @@ const MessagesListener = ({userId}: {userId: string}) => {
         dispatch(setMessages(messagesDataRedux));
       });
 
-    return () => unsubscribe(); // Отписываемся от подписки при размонтировании компонента
+    return () => unsubscribe();
   }, [dispatch, userId]);
 
-  return null; // Поскольку компонент используется только для управления подпиской, он не рендерит ничего
+  return null;
 };
 
 export default MessagesListener;

@@ -11,7 +11,6 @@ export const SetDataString = async (
     }
 
     await AsyncStorage.setItem(key, value);
-    // console.log('StoreIsLogin', value);
   } catch (e) {
     throw e;
   }
@@ -22,7 +21,7 @@ export const SetDataObject = async (key: StorageKeys, value: {}) => {
     const jsonValue = JSON.stringify(value);
     await AsyncStorage.setItem(key, jsonValue);
   } catch (e) {
-    // saving error
+    throw e;
   }
 };
 
@@ -35,7 +34,7 @@ export const GetDataString = async (key: StorageKeys) => {
       return value;
     }
   } catch (e) {
-    // error reading value
+    throw e;
   }
 };
 
@@ -44,7 +43,7 @@ export const GetDataObject = async (key: StorageKeys) => {
     const jsonValue = await AsyncStorage.getItem(key);
     return jsonValue != null ? JSON.parse(jsonValue) : null;
   } catch (e) {
-    // error reading value
+    throw e;
   }
 };
 
@@ -53,6 +52,5 @@ export const RemoveValue = async (key: StorageKeys) => {
     await AsyncStorage.removeItem(key);
   } catch (e) {
     throw e;
-    // remove error
   }
 };

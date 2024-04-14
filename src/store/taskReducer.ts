@@ -62,10 +62,6 @@ const getTasksSchedule = (tasks: TaskFromFirestore[]): TaskFromFirestore[] => {
 export const fetchTasksByUserId = createAsyncThunk(
   'task/fetchTasksByUserId',
   async (userId: string) => {
-    // const tasksDoc = await firestore()
-    //   .collection(NameCollection.TASKS)
-    //   .where('userId', '==', userId)
-    //   .get();
     const tasksDoc = await firestore()
       .collection(NameCollection.USERS)
       .doc(userId)
@@ -117,17 +113,12 @@ export const taskSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchTasksByUserId.pending, (state, action) => {
-        console.log('taskPENDING');
-      })
+      .addCase(fetchTasksByUserId.pending, (state, action) => {})
       .addCase(fetchTasksByUserId.rejected, (state, action) => {
         state.error = action.payload;
-        console.log('taskREJECTED');
       })
       .addCase(fetchTasksByUserId.fulfilled, (state, action) => {
         const tasksData = action.payload;
-
-        // console.log('TasksAfter', tasksData);
 
         state.tasksInProgress = tasksData.filter(
           task => task.status == Status.INPROGRESS,
@@ -141,8 +132,6 @@ export const taskSlice = createSlice({
 
         state.numberTasksCompletedYear =
           getNumberTasksCompletedYearReduxData(tasksData);
-
-        console.log('taskREQUEST FINISHED FULLFILLED');
       });
   },
 });

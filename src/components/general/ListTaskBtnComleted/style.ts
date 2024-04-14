@@ -9,7 +9,6 @@ export const styles = StyleSheet.create({
     marginBottom: scaleSize(20),
   },
   taskBtn: {
-    // marginBottom: scaleSize(5),
     borderWidth: 0,
     color: Colors.COLOR1,
   },

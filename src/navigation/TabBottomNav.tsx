@@ -16,12 +16,13 @@ import {FontSize} from '../constans/fontSize';
 import {Fonts} from '../constans/fonts';
 import {NameNavigators} from '../types/nameNavigators';
 import ToDoListStackNav from './ToDoListStackNav';
-import TaskDetailsScreen from '../components/screens/TaskDetailsScreen/TaskDetailsScreen';
+
 import {TaskForRedux} from '../types/Task';
 
 import {useSelector} from 'react-redux';
 import {RootState} from '../store/store';
 import TaskListener from '../components/functional/TaskListener';
+import TaskDetailsScreen from '../components/screens/TaskDetailsScreen/TaskDetailsScreen';
 
 export type TTabBottomNavParamList = {
   [NameScreens.MESSAGES]: undefined;
@@ -34,7 +35,7 @@ export type TTabBottomNavParamList = {
 const TabNav = createBottomTabNavigator<TTabBottomNavParamList>();
 
 const TabBottonNav = () => {
-  const {id, isLogin} = useSelector((state: RootState) => state.user);
+  const id = useSelector((state: RootState) => state.user.id);
 
   return (
     <>
@@ -101,7 +102,7 @@ const TabBottonNav = () => {
           }}
           listeners={() => ({
             tabPress: e => {
-              e.preventDefault(); // Предотвращение нажатия на вкладку
+              e.preventDefault();
             },
           })}
         />

@@ -21,13 +21,13 @@ const TaskListener = ({userId}: {userId: string}) => {
           return taskData;
         });
         const tasksDataRedux = taskFromFirestoreTOTaskForRedux(tasksData);
-        dispatch(setTasksAll(tasksDataRedux)); // Обновляем задачи в Redux store
+        dispatch(setTasksAll(tasksDataRedux));
       });
 
-    return () => unsubscribe(); // Отписываемся от подписки при размонтировании компонента
+    return () => unsubscribe();
   }, [dispatch, userId]);
 
-  return null; // Поскольку компонент используется только для управления подпиской, он не рендерит ничего
+  return null;
 };
 
 export default TaskListener;

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {stylesGeneral} from '../../stylesGeneral';
 import Title1 from '../../ui/Title1/Title1';
 import Btn1 from '../../ui/Btn1/Btn1';
@@ -18,19 +18,22 @@ const RegistrationScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={stylesGeneral.containerScreen}>
-      {isLoading && <Loading />}
-      <Title1>Registration</Title1>
-      <FormRegistration setIsLoading={setIsLoading} />
+    <View style={styles.containerMain}>
+      <View style={styles.containerHeader}>
+        <Title1>Registration</Title1>
+      </View>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={stylesGeneral.containerScreen}>
+        {isLoading && <Loading />}
 
-      <Btn1
-        style={styles.btn1Login}
-        onPressBtn={() => navigation.navigate(NameScreens.LOGIN)}>
-        Log_In
-      </Btn1>
-    </ScrollView>
+        <FormRegistration setIsLoading={setIsLoading} />
+
+        <Btn1 onPressBtn={() => navigation.navigate(NameScreens.LOGIN)}>
+          Log_In
+        </Btn1>
+      </ScrollView>
+    </View>
   );
 };
 

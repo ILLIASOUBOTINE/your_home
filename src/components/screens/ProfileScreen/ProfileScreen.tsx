@@ -1,4 +1,4 @@
-import {ActivityIndicator, Modal, ScrollView, Text} from 'react-native';
+import {Alert, ScrollView, View} from 'react-native';
 import {styles} from './style';
 import React, {useState} from 'react';
 import auth from '@react-native-firebase/auth';
@@ -11,11 +11,11 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../../store/store';
 import {setIslogin} from '../../../store/userReducer';
 import SettingsProfile from '../../general/SettingsProfile/SettingsProfile';
-import {Colors} from '../../../constans/colors';
+
 import {RemoveValue, SetDataString} from '../../../storage/storage';
 import {StorageKeys} from '../../../storage/storage-keys';
 import LoadingModal from '../../ui/LoadingModal/LoadingModal';
-import {NameNavigators} from '../../../types/nameNavigators';
+
 import {useNavigation} from '@react-navigation/native';
 import {TLoginAndRegistrationNavParamList} from '../../../navigation/LoginAndRegistrationStackNav';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -36,31 +36,38 @@ const ProfileScreen = () => {
         dispatch(setIslogin(false));
         await SetDataString(StorageKeys.IS_LOGIN, false);
         await RemoveValue(StorageKeys.UID_USER);
-        console.log('User signed out!');
+
         navigation.navigate(NameScreens.LOGIN);
       })
-      .catch(() => {});
+      .catch(() => {
+        Alert.alert('Logout', 'Try logout in again!');
+      });
   };
 
   return (
-    <ScrollView
-      showsVerticalScrollIndicator={false}
-      contentContainerStyle={[
-        stylesGeneral.containerScreen,
-        styles.containerScroll,
-      ]}>
-      {!isEdite && <Title1>{firstName}</Title1>}
-
-      {isEdite ? (
-        <FormProfile setIsEdite={setIsEdite} setIsLoading={setIsLoading} />
-      ) : (
-        <SettingsProfile setIsEdite={setIsEdite} />
+    <View style={styles.containerMain}>
+      {!isEdite && (
+        <View style={styles.containerHeader}>
+          <Title1>{firstName}</Title1>
+        </View>
       )}
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={[
+          stylesGeneral.containerScreen,
+          styles.containerScroll,
+        ]}>
+        {isEdite ? (
+          <FormProfile setIsEdite={setIsEdite} setIsLoading={setIsLoading} />
+        ) : (
+          <SettingsProfile setIsEdite={setIsEdite} />
+        )}
 
-      {!isEdite && <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>}
+        {!isEdite && <Btn1 onPressBtn={() => Logout()}>Log_out</Btn1>}
 
-      <LoadingModal isLoading={isLoading} />
-    </ScrollView>
+        <LoadingModal isLoading={isLoading} />
+      </ScrollView>
+    </View>
   );
 };
 

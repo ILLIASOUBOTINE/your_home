@@ -3,7 +3,7 @@ import {styles} from './style';
 import React from 'react';
 
 type TBtnProps = {
-  children: string | string[];
+  children: any;
   style?: StyleProp<any>;
   onPressBtn?: () => void;
 };

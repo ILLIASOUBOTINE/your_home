@@ -6,8 +6,6 @@ import {Fonts} from '../../../constans/fonts';
 
 export const styles = StyleSheet.create({
   containerMain: {
-    // justifyContent: 'flex-start',
-    // paddingVertical: scaleSize(10),
     paddingHorizontal: 0,
   },
   container: {
@@ -54,6 +52,5 @@ export const styles = StyleSheet.create({
   },
   containerModal: {
     flex: 1,
-    // backgroundColor: Colors.COLOR1,
   },
 });

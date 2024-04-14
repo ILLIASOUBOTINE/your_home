@@ -7,7 +7,7 @@ import {Fonts} from '../../../constans/fonts';
 export const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
-    // paddingVertical: scaleSize(10),
+
     paddingHorizontal: 0,
   },
   listHeader: {

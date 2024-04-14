@@ -19,7 +19,7 @@ const ImgTaskPhoto = ({
   urlImage,
 }: TImgTaskPhotoProps) => {
   return (
-    <View style={styles.imageContainer}>
+    <View>
       <View>
         <TouchableOpacity
           onPress={onPressDelletePhoto}

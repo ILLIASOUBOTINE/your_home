@@ -13,7 +13,7 @@ import {
 
 export type THeaderListTaskBtnProps = {
   style?: StyleProp<any>;
-  // tasks: TaskForRedux[];
+
   date: string;
 };
 

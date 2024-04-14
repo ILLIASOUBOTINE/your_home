@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Text, TextInput, View} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 
 import {styles} from './style';
 import Btn1 from '../../ui/Btn1/Btn1';
@@ -7,7 +7,6 @@ import Btn1 from '../../ui/Btn1/Btn1';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import {NameScreens} from '../../../types/nameScreens';
 import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {stylesGeneral} from '../../stylesGeneral';
 import {useSelector} from 'react-redux';

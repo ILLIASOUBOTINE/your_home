@@ -65,12 +65,9 @@ export const userSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchUserById.pending, (state, action) => {
-        console.log('UserPENDING');
-      })
+      .addCase(fetchUserById.pending, (state, action) => {})
       .addCase(fetchUserById.rejected, (state, action) => {
         state.error = action.payload;
-        console.log('UserREJECTED');
       })
       .addCase(fetchUserById.fulfilled, (state, action) => {
         const userData = action.payload;
@@ -80,13 +77,10 @@ export const userSlice = createSlice({
         state.phoneNumber = userData.phoneNumber;
         state.address = userData.address;
         state.email = userData.email;
-        // state.isLogin = true;
-        console.log('UserREQUEST FINISHED FULLFILLED');
       });
   },
 });
 
-// Action creators are generated for each case reducer function
 export const {setIslogin, setUserId, setUpdateUserFields} = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,15 +1,11 @@
-import {FlatList, StyleProp, Text, TouchableOpacity, View} from 'react-native';
+import {FlatList, StyleProp, Text} from 'react-native';
 import {styles} from './style';
 import React from 'react';
 
 import {TaskForRedux} from '../../../types/Task';
 import TaskBtn from '../../ui/TaskBtn/TaskBtn';
 import {NameScreens} from '../../../types/nameScreens';
-import {
-  dateFromReduxToDate,
-  dateFromReduxToDateWithYear,
-} from '../../../utils/convertTask';
-import HeaderListTaskBtn from '../HeaderListTaskBtn/HeaderListTaskBtn';
+import {dateFromReduxToDateWithYear} from '../../../utils/convertTask';
 
 export type TListTaskBtnComletedProps = {
   style?: StyleProp<any>;

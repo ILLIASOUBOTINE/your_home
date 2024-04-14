@@ -5,7 +5,8 @@ import HeaderToDoList from '../../general/HeaderToDoList/HeaderToDoList';
 import {stylesGeneral} from '../../stylesGeneral';
 import {styles} from './style';
 import FormAddTask from '../../general/FormAddTask/FormAddTask';
-import Loading from '../../ui/Loading/Loading';
+
+import LoadingModal from '../../ui/LoadingModal/LoadingModal';
 
 const TaskAddScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -14,7 +15,7 @@ const TaskAddScreen = () => {
     <ScrollView
       showsVerticalScrollIndicator={false}
       contentContainerStyle={[stylesGeneral.containerScreen, styles.container]}>
-      {isLoading && <Loading />}
+      <LoadingModal isLoading={isLoading} />
       <HeaderToDoList />
       <FormAddTask setIsLoading={setIsLoading} />
     </ScrollView>

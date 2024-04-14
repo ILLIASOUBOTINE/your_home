@@ -25,8 +25,6 @@ export const stylesGeneral = StyleSheet.create({
     borderColor: Colors.COLOR1,
     borderRadius: scaleSize(8),
     width: '100%',
-    // lineHeight: scaleSize(36),
-    // height: scaleSize(36),
     padding: scaleSize(10),
   },
   input2: {

@@ -46,7 +46,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
         navigation.navigate(NameScreens.LOGIN);
       })
       .catch(error => {
-        console.error('addUserToBD', error);
+        throw error;
       });
   };
 
@@ -80,21 +80,17 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
       .createUserWithEmailAndPassword(email, password)
       .then(userCredential => {
         const user = userCredential.user;
-        console.log('ID', user.uid);
+
         addUserToBD(user.uid);
       })
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
-          console.log('That email address is already in use!');
           Alert.alert('Registration', 'That email address is already in use!');
         } else if (error.code === 'auth/invalid-email') {
-          console.log('That email address is invalid!');
           Alert.alert('Registration', 'That email address is invalid!');
         } else if (error.code === 'auth/weak-password') {
-          console.log('That password is invalid!');
           Alert.alert('Registration', 'That password is invalid!');
         } else {
-          console.error(error);
           Alert.alert('Registration', 'An error occurred during registration');
         }
       })
@@ -145,6 +141,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
         placeholder="Password"
         placeholderTextColor={Colors.COLOR1}
         value={password}
+        secureTextEntry={true}
         onChangeText={setPassword}
       />
       <TextInput
@@ -152,6 +149,7 @@ const FormRegistration = ({setIsLoading}: TFormRegistrationParams) => {
         placeholder="Conform Password"
         placeholderTextColor={Colors.COLOR1}
         value={conformPassword}
+        secureTextEntry={true}
         onChangeText={setConformPassword}
       />
       <Btn1 onPressBtn={handlerRegitration}>Submit</Btn1>

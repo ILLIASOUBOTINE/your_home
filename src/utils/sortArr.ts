@@ -27,16 +27,7 @@ export const sortArrSchedule = (arrSchedule: TaskForRedux[]) => {
       const date2 = dateFromReduxToDate(
         arrSortedByDateSchedule[j].dateSchedule!,
       );
-      //   console.log('dateMili1', date1.getMilliseconds());
-      //   console.log('dateMili2', date2.getMilliseconds());
 
-      //   console.log('date1', date1.getTime());
-      //   console.log('date2', date2.getTime());
-      //   console.log(
-      //     'Result',
-      //     date1.getTime() - date1.getMilliseconds() ===
-      //       date2.getTime() - date2.getMilliseconds(),
-      //   );
       if (
         date1.getTime() - date1.getMilliseconds() ===
         date2.getTime() - date2.getMilliseconds()

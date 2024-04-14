@@ -50,16 +50,12 @@ export const messageSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(fetchMessagesByUserId.pending, (state, action) => {
-        console.log('messagePENDING');
-      })
+      .addCase(fetchMessagesByUserId.pending, (state, action) => {})
       .addCase(fetchMessagesByUserId.rejected, (state, action) => {
         state.error = action.payload;
-        console.log('messageREJECTED');
       })
       .addCase(fetchMessagesByUserId.fulfilled, (state, action) => {
         state.messages = sortArrMessages(action.payload);
-        console.log('messageREQUEST FINISHED FULLFILLED');
       });
   },
 });

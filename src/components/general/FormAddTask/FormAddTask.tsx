@@ -48,17 +48,6 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
     return {...newTask};
   };
 
-  // const uploadTaskInFirestore = async (newTask: Task) => {
-  //   try {
-  //     const uploadedTaskInFirestore = await firestore()
-  //       .collection(NameCollection.TASKS)
-  //       .add(newTask);
-  //     return uploadedTaskInFirestore;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
-
   const uploadTaskInFirestore = async (newTask: Task) => {
     try {
       console.log('UerID', userId);
@@ -78,7 +67,7 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
     setIsLoading(true);
 
     if (!title || !description) {
-      Alert.alert('Add task', ' all fields must be filled in');
+      Alert.alert('Add task', ' All fields must be filled in');
       setIsLoading(false);
       return;
     }
@@ -88,13 +77,13 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
 
       const newTask = createNewTask(imagePathInStorage);
       await uploadTaskInFirestore(newTask);
-      Alert.alert('Add Task', 'Task added!');
+      Alert.alert('Add task', 'Task added!');
       setTitle('');
       setDescription('');
 
       setResponsePhoto([]);
     } catch (error) {
-      Alert.alert('Add Task', 'Task didn`t add!');
+      Alert.alert('Add task', 'Task didn`t add!');
     } finally {
       setIsLoading(false);
     }
@@ -111,14 +100,11 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
     const launchCamera = () => {
       ImagePicker.launchCamera(options, response => {
         if (response.didCancel) {
-          console.log('User cancelled camera');
         } else if (response.errorCode) {
-          console.log('Camera Error: ', response.errorCode);
         } else {
           if (response.assets !== undefined) {
             const newAssets = [...response.assets];
             setResponsePhoto(prev => [...prev, ...newAssets]);
-            console.log('asset', response.assets);
           }
         }
       });
@@ -141,9 +127,7 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
       if (Platform.OS === 'ios') {
         launchCamera();
       }
-    } catch (error) {
-      console.error('Error requesting camera permission: ', error);
-    }
+    } catch (error) {}
   };
 
   const handlerLaunchImageLibrary = () => {
@@ -157,14 +141,11 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
 
     ImagePicker.launchImageLibrary(options, response => {
       if (response.didCancel) {
-        console.log('User cancelled camera');
       } else if (response.errorCode) {
-        console.log('Camera Error: ', response.errorCode);
       } else {
         if (response.assets !== undefined) {
           const newAssets = [...response.assets];
           setResponsePhoto(prev => [...prev, ...newAssets]);
-          console.log('asset', response.assets);
         }
       }
     });
@@ -185,7 +166,6 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
 
         throw new Error('Path to file or file name is invalid');
       } catch (error) {
-        console.error(`Error uploading image ${fileNameImg}: `, error);
         throw error;
       }
     });
@@ -194,7 +174,6 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
       const uploadedImages = await Promise.all(uploadTasks);
       return uploadedImages;
     } catch (error) {
-      console.error('Error uploading images: ', error);
       throw error;
     }
   };

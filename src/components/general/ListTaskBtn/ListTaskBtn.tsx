@@ -5,7 +5,7 @@ import React from 'react';
 import {TaskForRedux} from '../../../types/Task';
 import TaskBtn from '../../ui/TaskBtn/TaskBtn';
 import {NameScreens} from '../../../types/nameScreens';
-import {dateFromReduxToDate} from '../../../utils/convertTask';
+
 import HeaderListTaskBtn from '../HeaderListTaskBtn/HeaderListTaskBtn';
 
 export type TListTaskBtnProps = {

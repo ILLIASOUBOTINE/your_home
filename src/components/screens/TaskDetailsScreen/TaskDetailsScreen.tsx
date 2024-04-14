@@ -60,13 +60,11 @@ const TaskDetailsScreen = () => {
 
       return urls;
     } catch (error) {
-      console.error('Error getting download URLs:', error);
       throw error;
     }
   };
 
   const onPressBtn = () => {
-    // navigation.navigate(fromScreen);
     navigation.goBack();
   };
 

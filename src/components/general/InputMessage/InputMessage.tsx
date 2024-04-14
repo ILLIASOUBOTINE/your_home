@@ -2,7 +2,6 @@ import {
   ActivityIndicator,
   Alert,
   StyleProp,
-  Text,
   TextInput,
   TouchableOpacity,
   View,

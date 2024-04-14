@@ -4,10 +4,6 @@ import firestore from '@react-native-firebase/firestore';
 import {styles} from './style';
 import Btn1 from '../../ui/Btn1/Btn1';
 
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
-
-import {TTabBottomNavParamList} from '../../../navigation/TabBottomNav';
 import {stylesGeneral} from '../../stylesGeneral';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppDispatch, RootState} from '../../../store/store';
@@ -50,7 +46,6 @@ const FormProfile = ({setIsEdite, setIsLoading}: TFormProfileParams) => {
         phoneNumber,
       })
       .then(() => {
-        console.log('User updated!');
         dispatch(
           setUpdateUserFields({firstName, lastName, phoneNumber, address}),
         );
