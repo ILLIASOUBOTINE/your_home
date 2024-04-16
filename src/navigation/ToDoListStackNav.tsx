@@ -17,11 +17,11 @@ const ToDoListStackNav = () => {
   return (
     <ToDoListNav.Navigator
       initialRouteName={NameScreens.TASKINPROGRESS}
-      screenOptions={() => ({
+      screenOptions={{
         gestureEnabled: false,
         headerShown: false,
         animationEnabled: false,
-      })}>
+      }}>
       <ToDoListNav.Screen
         name={NameScreens.TASKADD}
         component={TaskAddScreen}

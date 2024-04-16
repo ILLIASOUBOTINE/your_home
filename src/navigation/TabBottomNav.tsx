@@ -29,7 +29,7 @@ export type TTabBottomNavParamList = {
   [NameScreens.PROFILE]: undefined;
   [NameScreens.SCHEDULE]: undefined;
   [NameScreens.TASKDETAILS]: {task: TaskForRedux; fromScreen: string};
-  [NameNavigators.TODOLISTSTACKNAVIGATOR]: undefined;
+  [NameNavigators.TODOLISTSTACKNAVIGATOR]: {screen: NameScreens};
 };
 
 const TabNav = createBottomTabNavigator<TTabBottomNavParamList>();
@@ -41,8 +41,10 @@ const TabBottonNav = () => {
     <>
       {id && <TaskListener userId={id} />}
       <TabNav.Navigator
+        initialRouteName={NameScreens.SCHEDULE}
         backBehavior="history"
         screenOptions={{
+          unmountOnBlur: true,
           tabBarHideOnKeyboard: true,
           headerShown: false,
           tabBarActiveTintColor: Colors.COLOR3,

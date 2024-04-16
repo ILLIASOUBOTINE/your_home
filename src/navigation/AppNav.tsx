@@ -16,6 +16,7 @@ import {fetchMessagesByUserId} from '../store/messageReducer';
 import {StorageKeys} from '../storage/storage-keys';
 import {GetDataString} from '../storage/storage';
 import LoadingModal from '../components/ui/LoadingModal/LoadingModal';
+import {NameScreens} from '../types/nameScreens';
 
 export type TAppStackParamList = {
   [NameNavigators.TABBOTTOMNAVIGATOR]: undefined;

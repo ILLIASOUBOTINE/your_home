@@ -30,7 +30,7 @@ const ListTaskBtnComleted = ({style, tasks}: TListTaskBtnComletedProps) => {
         keyExtractor={(item, index) => item.id}
         ListHeaderComponent={
           <Text style={styles.title}>
-            {dateFromReduxToDateWithYear(tasks[0].dateCompleted!)}{' '}
+            {dateFromReduxToDateWithYear(tasks[0].dateCompleted!)}
           </Text>
         }
       />

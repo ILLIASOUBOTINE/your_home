@@ -23,6 +23,7 @@ import {NameScreens} from '../../../types/nameScreens';
 import IconCloseOutline from '../../../../assets/icon_app/closeOutline.svg';
 import {Colors} from '../../../constans/colors';
 import {dateFromReduxToDateWithYear} from '../../../utils/convertTask';
+import {NameNavigators} from '../../../types/nameNavigators';
 
 const TaskDetailsScreen = () => {
   const navigation =
@@ -65,7 +66,17 @@ const TaskDetailsScreen = () => {
   };
 
   const onPressBtn = () => {
-    navigation.goBack();
+    if (fromScreen === NameScreens.TASKCOMPLETED) {
+      navigation.navigate(NameNavigators.TODOLISTSTACKNAVIGATOR, {
+        screen: fromScreen,
+      });
+    } else if (fromScreen === NameScreens.TASKINPROGRESS) {
+      navigation.navigate(NameNavigators.TODOLISTSTACKNAVIGATOR, {
+        screen: fromScreen,
+      });
+    } else {
+      navigation.goBack();
+    }
   };
 
   const handleImagePress = (index: number) => {
@@ -118,10 +129,10 @@ const TaskDetailsScreen = () => {
                 {task.photos.length != 0 &&
                   images.map((url, index) => (
                     <TouchableOpacity
-                      key={`${url}Image`}
+                      key={`${url}${index}`}
                       onPress={() => handleImagePress(index)}>
                       <Image
-                        // key={`${url}Image`}
+                        key={`${url}Image${index}`}
                         style={styles.img}
                         source={{uri: url}}
                       />

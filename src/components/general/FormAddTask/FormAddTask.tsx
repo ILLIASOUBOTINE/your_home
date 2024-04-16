@@ -50,8 +50,6 @@ const FormAddTask = ({setIsLoading}: TFormAddTaskParams) => {
 
   const uploadTaskInFirestore = async (newTask: Task) => {
     try {
-      console.log('UerID', userId);
-
       const uploadedTaskInFirestore = await firestore()
         .collection(NameCollection.USERS)
         .doc(userId!)
