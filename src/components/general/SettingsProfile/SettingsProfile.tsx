@@ -33,7 +33,9 @@ const SettingsProfile = ({setIsEdite}: TSettingsProfileParams) => {
       <Text1 title="Phone number" text={userData.phoneNumber} />
       <Text1 title="Address" text={userData.address} />
 
-      <Btn1 onPressBtn={editeUser}>Edite</Btn1>
+      <Btn1 style={styles.btn} onPressBtn={editeUser}>
+        Edite
+      </Btn1>
     </View>
   );
 };

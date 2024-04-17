@@ -5,6 +5,7 @@ import {scaleSize} from '../../../utils/scaleSize';
 export const styles = StyleSheet.create({
   containerScroll: {
     justifyContent: 'center',
+    gap: scaleSize(20),
   },
   containerMain: {
     flex: 1,
