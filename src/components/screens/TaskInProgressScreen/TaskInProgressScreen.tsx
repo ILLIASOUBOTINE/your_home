@@ -14,6 +14,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../../store/store';
 
 import Title1 from '../../ui/Title1/Title1';
+import {sortArrInProgress} from '../../../utils/sortArr';
 
 const TaskInProgressScreen = () => {
   const taskInprogress = useSelector(
@@ -30,7 +31,7 @@ const TaskInProgressScreen = () => {
       <FlatList
         showsVerticalScrollIndicator={false}
         style={{flex: 1, marginBottom: scaleSize(20)}}
-        data={taskInprogress}
+        data={sortArrInProgress(taskInprogress)}
         renderItem={({item}) => (
           <TaskBtn task={item} fromScreen={NameScreens.TASKINPROGRESS}>
             {item.title}

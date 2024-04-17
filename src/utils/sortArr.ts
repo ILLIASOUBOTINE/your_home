@@ -92,3 +92,17 @@ export const sortArrCompleted = (arrCompleted: TaskForRedux[]) => {
   }
   return arrSorted;
 };
+
+export const sortArrInProgress = (arrInProgress: TaskForRedux[]) => {
+  const arrSortedByDateCreated = [...arrInProgress];
+  arrSortedByDateCreated.sort((t1, t2) => {
+    const date1 = dateFromReduxToDate(t1.dateCreation);
+    const date2 = dateFromReduxToDate(t2.dateCreation);
+
+    if (date1.getTime() < date2.getTime()) return -1;
+    if (date1.getTime() > date2.getTime()) return 1;
+    return 0;
+  });
+
+  return arrSortedByDateCreated;
+};
